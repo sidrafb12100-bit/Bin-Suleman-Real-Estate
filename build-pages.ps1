@@ -111,11 +111,15 @@ foreach ($src in $pages.Keys) {
   $html = [regex]::Replace($html, '(<body[^>]*>)', ('$1' + $logoBar), 'Singleline')
   # 2e. drop any stray pre-header bars/comments between the spacer and <header>
   $html = [regex]::Replace($html, '(<!-- spacer compensating the fixed bar -->\s*<div class="h-10 w-full" aria-hidden="true"></div>).*?(?=<header)', '$1', 'Singleline')
-  # 2f. canonical business TikTok link everywhere
+  # 2f. canonical business social links everywhere
   $tiktok = 'https://www.tiktok.com/@binsulemanrealestate?is_from_webapp=1&sender_device=pc'
+  $youtube = 'https://www.youtube.com/@BinSulemanRealEstate'
+  # placeholder URLs pointing at bare domains
   $html = [regex]::Replace($html, 'https?://(www\.)?tiktok\.com[^"''>\s]*', $tiktok)
-  # footer TikTok icons with dead href="#" placeholders
+  $html = [regex]::Replace($html, 'https?://(www\.)?youtube\.com[^"''>\s]*', $youtube)
+  # footer social icons with dead href="#" placeholders
   $html = [regex]::Replace($html, '(<a[^>]*aria-label="TikTok"[^>]*?)href="#"', ('$1href="' + $tiktok + '" target="_blank" rel="noopener"'))
+  $html = [regex]::Replace($html, '(<a[^>]*aria-label="YouTube"[^>]*?)href="#"', ('$1href="' + $youtube + '" target="_blank" rel="noopener"'))
   # 3. favicon after viewport meta
   $favicon = '<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico"><link rel="shortcut icon" href="favicon.ico"><link rel="apple-touch-icon" href="assets/images/bsr-logo.png">'
   if ($html -notmatch 'rel="icon"') {
