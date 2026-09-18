@@ -38,13 +38,13 @@ $desc = @{
   $outer = '<header class="relative z-40 w-full pt-3 sm:pt-4">'
 $logoBar = @'
 <!-- STATIONARY TOP LOGO BAR (fixed; stays on scroll) -->
-<div id="bsr-topbar" class="fixed top-0 inset-x-0 z-50 w-full bg-[#080d1a]/95 backdrop-blur-md border-b border-secondary/25">
+<div id="bsr-topbar" class="fixed top-0 inset-x-0 z-50 w-full bg-[#080d1a]/95 backdrop-blur-md border-b border-[#fed65b]/25">
   <div class="max-w-7xl mx-auto flex items-center justify-between gap-3 px-3 sm:px-6 py-2">
     <a href="index.html" class="flex items-center gap-2 sm:gap-3 min-w-0" aria-label="Bin Suleman Real Estate &amp; Builders - Home">
       <img alt="BSR Golden Emblem" class="h-5 sm:h-6 w-auto object-contain shrink-0 filter drop-shadow" src="__LOGO__">
-      <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-secondary-container whitespace-nowrap">Bin Suleman <span class="text-slate-200 font-medium">Real Estate &amp; Builders</span></span>
+      <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#fed65b] whitespace-nowrap">Bin Suleman <span class="text-slate-200 font-medium">Real Estate &amp; Builders</span></span>
     </a>
-    <a class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-secondary-container hover:text-white transition-colors shrink-0" href="tel:+9242111277999">
+    <a class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-[#fed65b] hover:text-white transition-colors shrink-0" href="tel:+9242111277999">
       <span class="material-symbols-outlined text-sm sm:text-base">call</span>
       <span class="hidden sm:inline">+92 42 111 277 999</span>
       <span class="sm:hidden">Call</span>
@@ -109,6 +109,8 @@ foreach ($src in $pages.Keys) {
   $html = [regex]::Replace($html, '<!-- 1\. Top Announcement Bar -->\s*<div class="w-full bg-\[#0b1329\][^>]*>.*?</div></div></div>\s*', '', 'Singleline')
   # 2d. inject stationary top logo bar (fixed) + spacer right after <body>
   $html = [regex]::Replace($html, '(<body[^>]*>)', ('$1' + $logoBar), 'Singleline')
+  # 2e. drop any stray pre-header bars/comments between the spacer and <header>
+  $html = [regex]::Replace($html, '(<!-- spacer compensating the fixed bar -->\s*<div class="h-10 w-full" aria-hidden="true"></div>).*?(?=<header)', '$1', 'Singleline')
   # 3. favicon after viewport meta
   $favicon = '<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico"><link rel="shortcut icon" href="favicon.ico"><link rel="apple-touch-icon" href="assets/images/bsr-logo.png">'
   if ($html -notmatch 'rel="icon"') {
