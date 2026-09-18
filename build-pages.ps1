@@ -115,6 +115,7 @@ foreach ($src in $pages.Keys) {
   $tiktok = 'https://www.tiktok.com/@binsulemanrealestate?is_from_webapp=1&sender_device=pc'
   $youtube = 'https://www.youtube.com/@BinSulemanRealEstate'
   $instagram = 'https://www.instagram.com/binsulemanrealestate/'
+  $facebook = 'https://www.facebook.com/BinSulemanRealEstateOfficial'
   # placeholder URLs pointing at bare domains
   $html = [regex]::Replace($html, 'https?://(www\.)?tiktok\.com[^"''>\s]*', $tiktok)
   $html = [regex]::Replace($html, 'https?://(www\.)?youtube\.com[^"''>\s]*', $youtube)
@@ -122,6 +123,8 @@ foreach ($src in $pages.Keys) {
   $html = [regex]::Replace($html, '(<a[^>]*aria-label="TikTok"[^>]*?)href="#"', ('$1href="' + $tiktok + '" target="_blank" rel="noopener"'))
   $html = [regex]::Replace($html, '(<a[^>]*aria-label="YouTube"[^>]*?)href="#"', ('$1href="' + $youtube + '" target="_blank" rel="noopener"'))
   $html = [regex]::Replace($html, '(<a[^>]*aria-label="Instagram"[^>]*?)href="#"', ('$1href="' + $instagram + '" target="_blank" rel="noopener"'))
+  $html = [regex]::Replace($html, 'https?://(www\.)?facebook\.com[^"''>\s]*', $facebook)
+  $html = [regex]::Replace($html, '(<a[^>]*aria-label="Facebook"[^>]*?)href="#"', ('$1href="' + $facebook + '" target="_blank" rel="noopener"'))
   # 3. favicon after viewport meta
   $favicon = '<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico"><link rel="shortcut icon" href="favicon.ico"><link rel="apple-touch-icon" href="assets/images/bsr-logo.png">'
   if ($html -notmatch 'rel="icon"') {
