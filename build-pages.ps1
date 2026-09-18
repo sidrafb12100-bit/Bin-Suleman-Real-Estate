@@ -114,6 +114,8 @@ foreach ($src in $pages.Keys) {
   # 2f. canonical business TikTok link everywhere
   $tiktok = 'https://www.tiktok.com/@binsulemanrealestate?is_from_webapp=1&sender_device=pc'
   $html = [regex]::Replace($html, 'https?://(www\.)?tiktok\.com[^"''>\s]*', $tiktok)
+  # footer TikTok icons with dead href="#" placeholders
+  $html = [regex]::Replace($html, '(<a[^>]*aria-label="TikTok"[^>]*?)href="#"', ('$1href="' + $tiktok + '" target="_blank" rel="noopener"'))
   # 3. favicon after viewport meta
   $favicon = '<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico"><link rel="shortcut icon" href="favicon.ico"><link rel="apple-touch-icon" href="assets/images/bsr-logo.png">'
   if ($html -notmatch 'rel="icon"') {
