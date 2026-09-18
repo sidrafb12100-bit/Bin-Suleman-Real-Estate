@@ -101,11 +101,24 @@
     }
   </style>
 </head>
-<body class="bg-[#faf8ff] font-body-md text-body-md text-[#131b2e] antialiased min-h-screen">
-<!-- 1. Top Announcement Bar -->
-<div class="w-full bg-[#0b1329] text-inverse-surface border-b border-secondary/30 relative z-50 text-[11px] font-bold px-4 py-2"><div class="max-w-7xl mx-auto flex items-center justify-center gap-2 text-center"><img alt="BSR Logo" class="h-6 sm:h-7 w-auto object-contain shrink-0" src="assets/images/img-16-ab6axuc5j7ef.png"><div class="flex items-center flex-wrap justify-center gap-x-2 text-surface-bright text-xs tracking-wider"><span class="inline-flex items-center gap-1 font-bold text-secondary-container"><span class="material-symbols-outlined text-sm text-secondary-container">verified</span> BIN SULEMAN <span class="font-normal">REAL ESTATE</span> &amp; <span class="font-normal">BUILDERS</span></span></div></div></div>
+<body class="bg-[#faf8ff] font-body-md text-body-md text-[#131b2e] antialiased min-h-screen"><!-- STATIONARY TOP LOGO BAR (fixed; stays on scroll) -->
+<div id="bsr-topbar" class="fixed top-0 inset-x-0 z-50 w-full bg-[#080d1a]/95 backdrop-blur-md border-b border-secondary/25">
+  <div class="max-w-7xl mx-auto flex items-center justify-between gap-3 px-3 sm:px-6 py-2">
+    <a href="index.html" class="flex items-center gap-2 sm:gap-3 min-w-0" aria-label="Bin Suleman Real Estate &amp; Builders - Home">
+      <img alt="BSR Golden Emblem" class="h-5 sm:h-6 w-auto object-contain shrink-0 filter drop-shadow" src="assets/images/img-1-ab6axuaiqxcc.png">
+      <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-secondary-container whitespace-nowrap">Bin Suleman <span class="text-slate-200 font-medium">Real Estate &amp; Builders</span></span>
+    </a>
+    <a class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-secondary-container hover:text-white transition-colors shrink-0" href="tel:+9242111277999">
+      <span class="material-symbols-outlined text-sm sm:text-base">call</span>
+      <span class="hidden sm:inline">+92 42 111 277 999</span>
+      <span class="sm:hidden">Call</span>
+    </a>
+  </div>
+</div>
+<!-- spacer compensating the fixed bar -->
+<div class="h-10 w-full" aria-hidden="true"></div>
 <!-- 2. Centered Floating Navigation Bar -->
-<header class="fixed inset-x-0 z-40 top-10 mt-3 sm:mt-4"><div class="max-w-7xl mx-auto px-gutter-mobile sm:px-gutter flex items-center justify-center"><div class="bg-[#151c2e]/90 backdrop-blur-md border border-white/10 rounded-full px-1.5 sm:px-3 py-1.5 max-w-full overflow-x-auto scrollbar-none pointer-events-auto flex items-center justify-center gap-0.5 sm:gap-2 shadow-2xl"><nav class="flex items-center justify-center gap-0.5 sm:gap-2 whitespace-nowrap shrink-0"><a href="index.html" class="px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all shrink-0">Home</a><a href="about.html" class="px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all shrink-0">About Us</a><a href="services.html" class="px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all shrink-0">Services</a><a href="blog.html" aria-current="page" class="px-2 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#d4af37] to-[#e6ca65] text-[#0b1329] text-[10px] sm:text-sm font-semibold shadow-md shrink-0">Blog</a><a href="contact.html" class="px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all shrink-0">Contact Us</a></nav></div></div></header>
+<header class="relative z-40 w-full pt-3 sm:pt-4"><div class="max-w-7xl mx-auto px-gutter-mobile sm:px-gutter flex items-center justify-center"><div class="bg-[#151c2e]/90 backdrop-blur-md border border-white/10 rounded-full px-1.5 sm:px-3 py-1.5 max-w-full overflow-x-auto scrollbar-none pointer-events-auto flex items-center justify-center gap-0.5 sm:gap-2 shadow-2xl"><nav class="flex items-center justify-center gap-0.5 sm:gap-2 whitespace-nowrap shrink-0"><a href="index.html" class="px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all shrink-0">Home</a><a href="about.html" class="px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all shrink-0">About Us</a><a href="services.html" class="px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all shrink-0">Services</a><a href="blog.html" aria-current="page" class="px-2 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#d4af37] to-[#e6ca65] text-[#0b1329] text-[10px] sm:text-sm font-semibold shadow-md shrink-0">Blog</a><a href="contact.html" class="px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all shrink-0">Contact Us</a></nav></div></div></header>
 <main class="w-full min-h-screen pt-24">
 <!-- 3. Editorial Masterhead -->
 <section class="w-full bg-surface-container-lowest py-10 px-4 sm:px-8 border-b border-surface-container/60">
@@ -161,11 +174,11 @@
 <div class="space-y-4">
 <div class="flex items-center gap-3 text-xs text-on-primary-container">
 <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">calendar_month</span> Nov 2024 - Q1 2025 Edition</span>
-<span class="">â€¢</span>
+<span class="">•</span>
 <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">verified</span> Verified Field Audit</span>
 </div>
 <h2 class="text-2xl sm:text-3xl font-bold text-surface-bright leading-tight tracking-tight">
-                  DHA Phase 9 Prism 2024â€“2025 Development &amp; Possession Roadmap: Which Sectors Are Ready for Home Construction First?
+                  DHA Phase 9 Prism 2024–2025 Development &amp; Possession Roadmap: Which Sectors Are Ready for Home Construction First?
                 </h2>
 <p class="text-sm text-inverse-primary leading-relaxed">
                   An authoritative on-site progress assessment of Sectors A, B, C, and D. Unpacking trunk sewerage line completion, underground grid station energization, and the massive valuation catalyst following the newly opened Lahore Ring Road (SL-3) interchange.
@@ -260,7 +273,7 @@
 </div>
 <div class="p-5 space-y-2">
 <div class="flex items-center gap-2 text-[11px] text-on-surface-variant">
-<span class="">By Investment Desk</span><span class="">â€¢</span><span class="">6 min read</span>
+<span class="">By Investment Desk</span><span class="">•</span><span class="">6 min read</span>
 </div>
 <h4 class="text-base font-bold text-on-surface group-hover:text-secondary transition-colors line-clamp-2">
                   The Ultimate Guide to Buying a 1 Kanal Plot in Sector J vs. Sector C: Pros, Cons &amp; Price Gap
@@ -286,7 +299,7 @@
 </div>
 <div class="p-5 space-y-2">
 <div class="flex items-center gap-2 text-[11px] text-on-surface-variant">
-<span class="">By DHA Transfer Advisory</span><span class="">â€¢</span><span class="">5 min read</span>
+<span class="">By DHA Transfer Advisory</span><span class="">•</span><span class="">5 min read</span>
 </div>
 <h4 class="text-base font-bold text-on-surface group-hover:text-secondary transition-colors line-clamp-2">
                   Avoiding Common Pitfalls When Buying Open DHA Files vs. Allocated Plots
@@ -315,7 +328,7 @@
 </div>
 <div class="p-5 space-y-2">
 <div class="flex items-center gap-2 text-[11px] text-on-surface-variant">
-<span class="">By Infrastructure Desk</span><span class="">â€¢</span><span class="">7 min read</span>
+<span class="">By Infrastructure Desk</span><span class="">•</span><span class="">7 min read</span>
 </div>
 <h4 class="text-base font-bold text-on-surface group-hover:text-secondary transition-colors line-clamp-2">
                   How the New Ring Road Interchange Impacts Commercial Plot Valuations in Phase 9
@@ -341,7 +354,7 @@
 </div>
 <div class="p-5 space-y-2">
 <div class="flex items-center gap-2 text-[11px] text-on-surface-variant">
-<span class="">By Overseas Desk</span><span class="">â€¢</span><span class="">9 min read</span>
+<span class="">By Overseas Desk</span><span class="">•</span><span class="">9 min read</span>
 </div>
 <h4 class="text-base font-bold text-on-surface group-hover:text-secondary transition-colors line-clamp-2">
                   Step-by-Step Guide to DHA Lahore Property Transfers for Non-Resident Pakistanis
@@ -370,7 +383,7 @@
 </div>
 <div class="p-5 space-y-2">
 <div class="flex items-center gap-2 text-[11px] text-on-surface-variant">
-<span class="">By BSR Builders Team</span><span class="">â€¢</span><span class="">8 min read</span>
+<span class="">By BSR Builders Team</span><span class="">•</span><span class="">8 min read</span>
 </div>
 <h4 class="text-base font-bold text-on-surface group-hover:text-secondary transition-colors line-clamp-2">
                   Building in DHA: Current Per-Sq-Ft Construction Costs &amp; Grey Structure Timelines
@@ -455,7 +468,7 @@
 <div class="lg:col-span-6 space-y-3">
 <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed/40 text-on-secondary-fixed text-[11px] font-bold uppercase tracking-wider">
 <span class="material-symbols-outlined text-sm text-secondary">verified_user</span>
-                Zero Speculation â€¢ Verified Rates Only
+                Zero Speculation • Verified Rates Only
               </div>
 <h3 class="text-2xl sm:text-3xl font-bold text-on-surface tracking-tight">
                 Get Daily DHA Phase 9 Prism Plot Rate Sheets Sent Directly to You
@@ -521,7 +534,7 @@
 </button>
 </div>
 <div class="text-center text-[10px] text-on-surface-variant pt-1">
-                  ðŸ”’ We respect your privacy. No marketing unsolicited calls. Direct advisory only.
+                  🔒 We respect your privacy. No marketing unsolicited calls. Direct advisory only.
                 </div>
 </form>
 </div>
@@ -550,7 +563,7 @@
 <span class="text-lg text-on-surface font-bold">Sec A</span>
 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
 </div>
-<div class="text-[10px] text-on-surface-variant font-medium">1 Kanal â€¢ 2 Kanal</div>
+<div class="text-[10px] text-on-surface-variant font-medium">1 Kanal • 2 Kanal</div>
 <div class="text-xs font-semibold text-emerald-700">95% Complete</div>
 <div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
 <div class="bg-emerald-500 h-full w-[95%]"></div>
@@ -562,7 +575,7 @@
 <span class="text-lg text-on-surface font-bold">Sec B</span>
 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
 </div>
-<div class="text-[10px] text-on-surface-variant font-medium">1 Kanal â€¢ Ring Rd</div>
+<div class="text-[10px] text-on-surface-variant font-medium">1 Kanal • Ring Rd</div>
 <div class="text-xs font-semibold text-emerald-700">90% Complete</div>
 <div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
 <div class="bg-emerald-500 h-full w-[90%]"></div>
@@ -574,7 +587,7 @@
 <span class="text-lg text-on-surface font-bold">Sec C</span>
 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
 </div>
-<div class="text-[10px] text-on-surface-variant font-medium">1 Kanal â€¢ Boulevard</div>
+<div class="text-[10px] text-on-surface-variant font-medium">1 Kanal • Boulevard</div>
 <div class="text-xs font-semibold text-emerald-700">88% Complete</div>
 <div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
 <div class="bg-emerald-500 h-full w-[88%]"></div>
@@ -586,7 +599,7 @@
 <span class="text-lg text-on-surface font-bold">Sec D</span>
 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
 </div>
-<div class="text-[10px] text-on-surface-variant font-medium">1 Kanal â€¢ Golf Facing</div>
+<div class="text-[10px] text-on-surface-variant font-medium">1 Kanal • Golf Facing</div>
 <div class="text-xs font-semibold text-emerald-700">82% Complete</div>
 <div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
 <div class="bg-emerald-500 h-full w-[82%]"></div>
@@ -598,7 +611,7 @@
 <span class="text-lg text-on-surface font-bold">Sec J</span>
 <span class="w-2 h-2 rounded-full bg-secondary"></span>
 </div>
-<div class="text-[10px] text-on-surface-variant font-medium">1 Kanal â€¢ Sector Park</div>
+<div class="text-[10px] text-on-surface-variant font-medium">1 Kanal • Sector Park</div>
 <div class="text-xs font-semibold text-secondary">70% Complete</div>
 <div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
 <div class="bg-secondary h-full w-[70%]"></div>
@@ -610,7 +623,7 @@
 <span class="text-lg text-on-surface font-bold">Sec Q</span>
 <span class="w-2 h-2 rounded-full bg-surface-tint"></span>
 </div>
-<div class="text-[10px] text-on-surface-variant font-medium">10 Marla â€¢ 1 Kanal</div>
+<div class="text-[10px] text-on-surface-variant font-medium">10 Marla • 1 Kanal</div>
 <div class="text-xs font-semibold text-on-surface-variant">55% Complete</div>
 <div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
 <div class="bg-surface-tint h-full w-[55%]"></div>
@@ -644,7 +657,7 @@
 </div>
 <div class="flex items-center gap-1.5">
 <span class="material-symbols-outlined text-secondary-container text-base">access_time</span>
-<span class="">Monâ€“Sat: 10:00 AM â€“ 7:00 PM</span>
+<span class="">Mon–Sat: 10:00 AM – 7:00 PM</span>
 </div>
 </div>
 </div>
@@ -658,7 +671,7 @@
 <span class="">Call Direct Hotline: (042) 111-277-999</span>
 </a>
 <a class="w-full text-center text-on-primary-container hover:text-surface-bright text-[11px] uppercase tracking-wider transition-colors pt-1 font-semibold" href="#">
-                Request Escorted Site Visit â†’
+                Request Escorted Site Visit →
               </a>
 </div>
 </div>
