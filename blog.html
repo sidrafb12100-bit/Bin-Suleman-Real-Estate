@@ -887,9 +887,11 @@ html.bsr-leaving.bsr-go #bsr-wipe{transform:scaleY(1);transition:transform .4s v
   var prog=document.getElementById('bsr-progress');
   var spacer=document.getElementById('bsr-topspacer');
   var navwrap=document.getElementById('bsr-navwrap');
+  var desk=window.matchMedia?window.matchMedia('(min-width:640px)'):null;
+  var GAP=10; /* desktop-only breathing room between the fixed bar and the nav */
 
-  /* keep the flow spacer exactly as tall as the fixed bar (also fixes the 4px mobile gap) */
-  function syncSpacer(){if(spacer)spacer.style.height=bar.offsetHeight+'px';}
+  /* keep the flow spacer exactly as tall as the fixed bar (+ extra gap on desktop only) */
+  function syncSpacer(){var g=(desk&&desk.matches)?GAP:0;if(spacer)spacer.style.height=(bar.offsetHeight+g)+'px';}
   syncSpacer();
   window.addEventListener('resize',syncSpacer,{passive:true});
   window.addEventListener('load',syncSpacer);
@@ -956,6 +958,7 @@ html.bsr-leaving.bsr-go #bsr-wipe{transform:scaleY(1);transition:transform .4s v
     if(was)navwrap.classList.add('bsr-sticky');
   }
   window.addEventListener('resize',remeasure,{passive:true});
+  window.addEventListener('resize',frame,{passive:true});
 
   /* S1 + S2 + S3 - rAF-throttled scroll loop */
   var last=null,prevY=0,ticking=false;
@@ -970,7 +973,11 @@ html.bsr-leaving.bsr-go #bsr-wipe{transform:scaleY(1);transition:transform .4s v
     }
     if(navwrap){
       var stick=y>320;
-      navwrap.style.top=bar.offsetHeight+'px';
+      /* the inline top may only apply while sticky (or on mobile, preserving its
+         current look): on desktop the nav is position:relative in flow, and a
+         leftover top value would visually shove it down over the page content */
+      if(stick||!desk||!desk.matches){navwrap.style.top=bar.offsetHeight+'px';}
+      else if(navwrap.style.top){navwrap.style.top='';}
       if(stick!==stickLast){
         navwrap.classList.toggle('bsr-sticky',stick);
         if(navph){navph.style.display=stick?'block':'none';navph.style.height=navH+'px';}
