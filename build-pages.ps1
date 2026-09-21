@@ -35,24 +35,139 @@ $desc = @{
 }
   # 2b. normalize header pill -> in-flow (scrolls away with content)
   # 2b. normalize header pill -> in-flow (scrolls away with content)
-  $outer = '<header class="relative z-40 w-full pt-3 sm:pt-4">'
+# top bar + navbar animations (entrance, ambient, hover, scroll)
+$barAnimStyle = @'
+<style id="bsr-bar-anim">
+:root{--bsr-gold:#fed65b;--bsr-ease:cubic-bezier(.16,1,.3,1)}
+
+/* ============ 1. ENTRANCE (one-shot on load) ============ */
+/* E1 - top bar slides down from above */
+#bsr-topbar{transform:translateY(-100%);animation:bsrBarDrop .55s var(--bsr-ease) forwards,bsrBorderPulse 4s ease-in-out 1.4s infinite}
+@keyframes bsrBarDrop{to{transform:translateY(0)}}
+/* E2 - emblem reveal (transform lives on the WRAPPER so the scroll-condense can scale the img) */
+.bsr-logo-wrap{display:inline-flex;align-items:center;opacity:0;animation:bsrEmblem .6s var(--bsr-ease) .12s both}
+@keyframes bsrEmblem{from{opacity:0;transform:scale(.85) rotate(-6deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+#bsr-topbar .bsr-sheen,#bsr-topbar .bsr-call{opacity:0;animation:bsrFadeUp .5s var(--bsr-ease) .22s forwards}
+@keyframes bsrFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* E3 - nav pill drops in after the bar lands */
+#bsr-navpill{opacity:0;animation:bsrNavDrop .45s var(--bsr-ease) .18s forwards}
+@keyframes bsrNavDrop{from{opacity:0;transform:translateY(-10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+/* E4 - nav links stagger in (no fill-forwards so :hover transform still works) */
+#bsr-navpill nav a{animation:bsrFadeUp .45s var(--bsr-ease) backwards}
+#bsr-navpill nav a:nth-child(1){animation-delay:.26s}
+#bsr-navpill nav a:nth-child(2){animation-delay:.33s}
+#bsr-navpill nav a:nth-child(3){animation-delay:.4s}
+#bsr-navpill nav a:nth-child(4){animation-delay:.47s}
+#bsr-navpill nav a:nth-child(5){animation-delay:.54s}
+/* E5 - active gold pill wipes in left-to-right */
+#bsr-navpill nav a[aria-current="page"]{animation:bsrPillSweep .5s var(--bsr-ease) .62s backwards}
+@keyframes bsrPillSweep{from{clip-path:inset(0 100% 0 0 round 9999px)}to{clip-path:inset(0 0 0 0 round 9999px)}}
+
+/* ============ 2. AMBIENT ============ */
+/* A1 - gold sheen sweeping across "Bin Suleman" */
+#bsr-topbar .bsr-sheen{background-image:linear-gradient(100deg,#fed65b 0%,#fff9e0 42%,#fed65b 58%,#fed65b 100%);background-size:250% 100%;background-position:150% 0;-webkit-background-clip:text;background-clip:text;color:transparent;animation:bsrFadeUp .5s var(--bsr-ease) .22s forwards,bsrSheen 6s linear 1.5s infinite}
+@keyframes bsrSheen{0%{background-position:150% 0}55%,100%{background-position:-60% 0}}
+/* A3 - phone icon micro-wiggle every ~6s */
+#bsr-callicon{display:inline-block;transform-origin:50% 50%;animation:bsrWiggle 6s ease-in-out 2.2s infinite}
+@keyframes bsrWiggle{0%,86%,100%{transform:rotate(0)}88%{transform:rotate(-10deg)}90%{transform:rotate(10deg)}92%{transform:rotate(-7deg)}94%{transform:rotate(7deg)}96%{transform:rotate(0)}}
+/* A4 - gold bottom border breathes */
+@keyframes bsrBorderPulse{0%,100%{border-bottom-color:rgba(254,214,91,.25)}50%{border-bottom-color:rgba(254,214,91,.62)}}
+
+/* ============ 3. HOVER MICRO-INTERACTIONS ============ */
+#bsr-navpill nav{position:relative}
+#bsr-navpill nav a{position:relative;transition:transform .25s var(--bsr-ease),background-color .25s,color .25s,text-shadow .25s}
+#bsr-navpill nav a:hover{transform:translateY(-1px);text-shadow:0 0 10px rgba(254,214,91,.55)}
+/* M1 - gold underline slides in (hidden on the active pill, which is already gold) */
+#bsr-navpill nav a::after{content:'';position:absolute;left:12px;right:12px;bottom:4px;height:2px;border-radius:9999px;background:linear-gradient(90deg,#d4af37,#e6ca65);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--bsr-ease)}
+#bsr-navpill nav a:hover::after{transform:scaleX(1)}
+#bsr-navpill nav a[aria-current="page"]::after{display:none}
+/* M2 - sliding gold indicator (positioned by the script) */
+.bsr-navind{position:absolute;top:0;bottom:0;left:0;border-radius:9999px;pointer-events:none;opacity:0;background:linear-gradient(90deg,rgba(212,175,55,.16),rgba(230,202,101,.3));border:1px solid rgba(254,214,91,.45);transition:transform .28s var(--bsr-ease),width .28s var(--bsr-ease),opacity .2s}
+
+/* ============ 4. SCROLL-REACTIVE ============ */
+/* S1 - the bar gains weight on scroll. Only colour/shadow/scale change, so there is NO layout shift. */
+#bsr-topbar{transition:background-color .3s var(--bsr-ease),box-shadow .3s var(--bsr-ease),border-bottom-color .3s}
+#bsr-topbar.bsr-scrolled{background-color:rgba(8,13,26,.98);box-shadow:0 10px 28px -10px rgba(0,0,0,.65);border-bottom-color:rgba(254,214,91,.45)}
+#bsr-emblem{transition:transform .3s var(--bsr-ease)}
+#bsr-topbar.bsr-scrolled #bsr-emblem{transform:scale(.88)}
+/* S2 - gold reading-progress line pinned to the bar's bottom edge */
+#bsr-progress{position:absolute;left:0;bottom:-1px;height:2px;width:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,#d4af37,#fed65b,#fff3c4);pointer-events:none;will-change:transform}
+
+/* ============ 5. ACCESSIBILITY FLOOR ============ */
+@media (prefers-reduced-motion: reduce){
+#bsr-topbar,#bsr-topbar *,#bsr-navpill,#bsr-navpill *,.bsr-logo-wrap{animation:none!important;transition:none!important}
+#bsr-topbar,#bsr-emblem,#bsr-navpill,#bsr-navpill nav a,#bsr-topbar .bsr-sheen,#bsr-topbar .bsr-call,.bsr-logo-wrap{transform:none;opacity:1;clip-path:none}
+#bsr-progress,.bsr-navind{display:none}
+}
+</style>
+'@
+$barAnimJs = @'
+<script id="bsr-bar-anim-js">
+(function(){try{
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var bar=document.getElementById('bsr-topbar');
+  if(!bar)return;
+  var pill=document.getElementById('bsr-navpill');
+  var prog=document.getElementById('bsr-progress');
+  var spacer=document.getElementById('bsr-topspacer');
+
+  /* keep the flow spacer exactly as tall as the fixed bar (also fixes the 4px mobile gap) */
+  function syncSpacer(){if(spacer)spacer.style.height=bar.offsetHeight+'px';}
+  syncSpacer();
+  window.addEventListener('resize',syncSpacer,{passive:true});
+  window.addEventListener('load',syncSpacer);
+
+  /* M2 - sliding gold indicator: desktop pointers only, never on touch */
+  if(!reduce&&pill&&window.matchMedia&&window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    var nav=pill.querySelector('nav');
+    if(nav){
+      var ind=document.createElement('span');
+      ind.className='bsr-navind';ind.setAttribute('aria-hidden','true');
+      nav.appendChild(ind);
+      var move=function(a){ind.style.width=a.offsetWidth+'px';ind.style.transform='translateX('+a.offsetLeft+'px)';ind.style.opacity='1';};
+      nav.addEventListener('pointerover',function(e){var a=e.target.closest('a');if(a)move(a);});
+      nav.addEventListener('focusin',function(e){var a=e.target.closest('a');if(a)move(a);});
+      nav.addEventListener('pointerleave',function(){ind.style.opacity='0';});
+    }
+  }
+  if(reduce)return;
+
+  /* S1 + S2 - rAF-throttled scroll handler */
+  var last=null,ticking=false;
+  function frame(){
+    ticking=false;
+    var y=window.pageYOffset||document.documentElement.scrollTop||0;
+    var on=y>24;
+    if(on!==last){bar.classList.toggle('bsr-scrolled',on);syncSpacer();last=on;}
+    if(prog){
+      var max=document.documentElement.scrollHeight-window.innerHeight;
+      prog.style.transform='scaleX('+(max>0?Math.min(1,y/max):0)+')';
+    }
+  }
+  window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(frame);}},{passive:true});
+  frame();
+}catch(e){}});
+</script>
+'@
+  $outer = '<header id="bsr-navwrap" class="relative z-40 w-full pt-3 sm:pt-4">'
 $logoBar = @'
 <!-- STATIONARY TOP LOGO BAR (fixed; stays on scroll) -->
 <div id="bsr-topbar" class="fixed top-0 inset-x-0 z-50 w-full bg-[#080d1a]/95 backdrop-blur-md border-b border-[#fed65b]/25">
-  <div class="max-w-7xl mx-auto flex items-center justify-between gap-3 px-3 sm:px-6 py-2">
+  <div class="bsr-bar-inner max-w-7xl mx-auto flex items-center justify-between gap-3 px-3 sm:px-6 py-2">
     <a href="index.html" class="flex items-center gap-2 sm:gap-3 min-w-0" aria-label="Bin Suleman Real Estate &amp; Builders - Home">
-      <img alt="BSR Golden Emblem" class="h-5 sm:h-6 w-auto object-contain shrink-0 filter drop-shadow" src="__LOGO__">
-      <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#fed65b] whitespace-nowrap">Bin Suleman <span class="text-slate-200 font-medium">Real Estate &amp; Builders</span></span>
+      <span class="bsr-logo-wrap shrink-0"><img id="bsr-emblem" alt="BSR Golden Emblem" class="h-5 sm:h-6 w-auto object-contain shrink-0 filter drop-shadow" src="__LOGO__"></span>
+      <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#fed65b] whitespace-nowrap"><span class="bsr-sheen">Bin Suleman</span> <span class="text-slate-200 font-medium">Real Estate &amp; Builders</span></span>
     </a>
-    <a class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-[#fed65b] hover:text-white transition-colors shrink-0" href="tel:+9242111277999">
-      <span class="material-symbols-outlined text-sm sm:text-base">call</span>
+    <a class="bsr-call inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-[#fed65b] hover:text-white transition-colors shrink-0" href="tel:+9242111277999">
+      <span id="bsr-callicon" class="material-symbols-outlined text-sm sm:text-base">call</span>
       <span class="hidden sm:inline">+92 42 111 277 999</span>
       <span class="sm:hidden">Call</span>
     </a>
   </div>
+  <span id="bsr-progress" aria-hidden="true"></span>
 </div>
 <!-- spacer compensating the fixed bar -->
-<div class="h-10 w-full" aria-hidden="true"></div>
+<div id="bsr-topspacer" class="h-10 w-full" aria-hidden="true"></div>
 '@
 $logoBar = $logoBar.Replace('__LOGO__', 'assets/images/img-1-ab6axuaiqxcc.png')
 # pulsing WhatsApp floating button (bottom-right) injected before </body> on every page
@@ -78,7 +193,7 @@ $waFloat = @'
   @media (prefers-reduced-motion: reduce) { .bsr-wa-ring { animation: none; opacity: 0; } .bsr-wa-btn { animation: none; } }
 </style>
 '@
-  $outer = '<header class="relative z-40 w-full pt-3 sm:pt-4">'
+  $outer = '<header id="bsr-navwrap" class="relative z-40 w-full pt-3 sm:pt-4">'
 $videoBlock = @'
 <!-- 7.5 OFFICIAL PROMO SHOWREEL -->
 <section class="w-full py-12 sm:py-16 bg-white border-b border-slate-200/70">
@@ -114,7 +229,7 @@ foreach ($src in $pages.Keys) {
     $html = [regex]::Replace($html, $pattern, ('<a$1' + $target + '$2'))
   }
   # 2b. normalize responsive header pill -> in-flow so it scrolls away with the page
-  $outer = '<header class="relative z-40 w-full pt-3 sm:pt-4">'
+  $outer = '<header id="bsr-navwrap" class="relative z-40 w-full pt-3 sm:pt-4">'
   $links = ''
   foreach ($label in $navMap.Keys) {
     $target = $navMap[$label]
@@ -124,7 +239,7 @@ foreach ($src in $pages.Keys) {
     $aria = if ($active) { ' aria-current="page"' } else { '' }
     $links += ('<a href="' + $target + '"' + $aria + ' class="' + $cls + '">' + $label + '</a>')
   }
-  $newHeader = $outer + '<div class="max-w-7xl mx-auto px-gutter-mobile sm:px-gutter flex items-center justify-center"><div class="bg-[#151c2e]/90 backdrop-blur-md border border-white/10 rounded-full px-1.5 sm:px-3 py-1.5 max-w-full overflow-x-auto scrollbar-none pointer-events-auto flex items-center justify-center gap-0.5 sm:gap-2 shadow-2xl"><nav class="flex items-center justify-center gap-0.5 sm:gap-2 whitespace-nowrap shrink-0">' + $links + '</nav></div></div></header>'
+  $newHeader = $outer + '<div class="max-w-7xl mx-auto px-gutter-mobile sm:px-gutter flex items-center justify-center"><div id="bsr-navpill" class="bg-[#151c2e]/90 backdrop-blur-md border border-white/10 rounded-full px-1.5 sm:px-3 py-1.5 max-w-full overflow-x-auto scrollbar-none pointer-events-auto flex items-center justify-center gap-0.5 sm:gap-2 shadow-2xl"><nav class="flex items-center justify-center gap-0.5 sm:gap-2 whitespace-nowrap shrink-0">' + $links + '</nav></div></div></header>'
   $html = [regex]::Replace($html, '<header\b.*?</header>', $newHeader, 'Singleline')
   # 2c. remove legacy announcement/logo bars (index fixed aside, blog in-flow div)
   $html = [regex]::Replace($html, '<aside aria-label="Official Partnership Notice".*?</aside>\s*', '', 'Singleline')
@@ -133,10 +248,17 @@ foreach ($src in $pages.Keys) {
   # 2d. inject stationary top logo bar (fixed) + spacer right after <body>
   $html = [regex]::Replace($html, '(<body[^>]*>)', ('$1' + $logoBar), 'Singleline')
   # 2e. drop any stray pre-header bars/comments between the spacer and <header>
-  $html = [regex]::Replace($html, '(<!-- spacer compensating the fixed bar -->\s*<div class="h-10 w-full" aria-hidden="true"></div>).*?(?=<header)', '$1', 'Singleline')
+  $html = [regex]::Replace($html, '(<!-- spacer compensating the fixed bar -->\s*<div[^>]*></div>).*?(?=<header)', '$1', 'Singleline')
   # 2g. inject pulsing WhatsApp floating button before </body> (idempotent)
   if ($html -notmatch 'id="bsr-whatsapp-float"') {
     $html = $html.Replace('</body>', ($waFloat + "`r`n" + '</body>'))
+  }
+  # 2h. top bar + nav animations: CSS into <head>, script before </body> (idempotent)
+  if ($html -notmatch 'id="bsr-bar-anim"') {
+    $html = $html.Replace('</head>', ($barAnimStyle + "`r`n" + '</head>'))
+  }
+  if ($html -notmatch 'id="bsr-bar-anim-js"') {
+    $html = $html.Replace('</body>', ($barAnimJs + "`r`n" + '</body>'))
   }
   # 2f. canonical business social links everywhere
   $tiktok = 'https://www.tiktok.com/@binsulemanrealestate?is_from_webapp=1&sender_device=pc'
