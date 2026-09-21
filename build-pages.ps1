@@ -87,7 +87,7 @@ $barAnimStyle = @'
 /* ============ 4. SCROLL-REACTIVE ============ */
 /* S1 - the bar gains weight on scroll. Only colour/shadow/scale change, so there is NO layout shift. */
 #bsr-topbar{transition:background-color .3s var(--bsr-ease),box-shadow .3s var(--bsr-ease),border-bottom-color .3s}
-#bsr-topbar.bsr-scrolled{background-color:rgba(8,13,26,.98);box-shadow:0 10px 28px -10px rgba(0,0,0,.65);border-bottom-color:rgba(254,214,91,.45)}
+#bsr-topbar.bsr-scrolled{background-color:rgba(8,13,26,.98);box-shadow:0 10px 28px -10px rgba(0,0,0,.65)}
 #bsr-emblem{transition:transform .3s var(--bsr-ease)}
 #bsr-topbar.bsr-scrolled #bsr-emblem{transform:scale(.88)}
 /* S2 - gold reading-progress line pinned to the bar's bottom edge */
