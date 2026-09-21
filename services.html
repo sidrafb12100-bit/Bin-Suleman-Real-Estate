@@ -54,12 +54,34 @@
 #bsr-topbar.bsr-scrolled #bsr-emblem{transform:scale(.88)}
 /* S2 - gold reading-progress line pinned to the bar's bottom edge */
 #bsr-progress{position:absolute;left:0;bottom:-1px;height:2px;width:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,#d4af37,#fed65b,#fff3c4);pointer-events:none;will-change:transform}
+/* ============ 5. STICKY NAV (S3) ============ */
+/* becomes fixed under the top bar, slides down on scroll-up and away on scroll-down */
+#bsr-navwrap.bsr-sticky{position:fixed;left:0;right:0;z-index:45;will-change:transform;transform:translateY(-200%);transition:transform .35s var(--bsr-ease)}
+#bsr-navwrap.bsr-sticky.bsr-show{transform:translateY(0)}
+#bsr-navph{display:none}
 
-/* ============ 5. ACCESSIBILITY FLOOR ============ */
+/* ============ 6. TOP BAR TICKER (B2) ============ */
+#bsr-ticker{overflow:hidden;background-color:rgba(0,0,0,.28);border-top:1px solid rgba(254,214,91,.18)}
+#bsr-ticker>div{display:flex;width:max-content;animation:bsrMarquee 46s linear infinite}
+#bsr-ticker:hover>div{animation-play-state:paused}
+#bsr-ticker span{display:inline-flex;align-items:center;gap:.6rem;padding:.32rem 0 .36rem;font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:rgba(254,214,91,.92);white-space:nowrap}
+#bsr-ticker span::after{content:'';width:4px;height:4px;border-radius:9999px;background:rgba(254,214,91,.5);margin-left:1.9rem}
+@keyframes bsrMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============ 7. PAGE TRANSITION (B1) ============ */
+/* pure CSS arrival (lifts even if the script never runs) + class-driven departure */
+#bsr-wipe{position:fixed;inset:0;z-index:70;pointer-events:none;background:linear-gradient(150deg,#080d1a 0%,#151c2e 55%,#080d1a 100%);border-bottom:2px solid rgba(254,214,91,.5);transform:scaleY(1);transform-origin:top;animation:bsrWipeAway .45s var(--bsr-ease) .04s forwards}
+@keyframes bsrWipeAway{to{transform:scaleY(0)}}
+html.bsr-leaving #bsr-wipe{animation:none;transform:scaleY(0);transform-origin:bottom;border-bottom:0;border-top:2px solid rgba(254,214,91,.5)}
+html.bsr-leaving.bsr-go #bsr-wipe{transform:scaleY(1);transition:transform .4s var(--bsr-ease)}
+
+/* ============ 8. ACCESSIBILITY FLOOR ============ */
 @media (prefers-reduced-motion: reduce){
-#bsr-topbar,#bsr-topbar *,#bsr-navpill,#bsr-navpill *,.bsr-logo-wrap{animation:none!important;transition:none!important}
-#bsr-topbar,#bsr-emblem,#bsr-navpill,#bsr-navpill nav a,#bsr-topbar .bsr-sheen,#bsr-topbar .bsr-call,.bsr-logo-wrap{transform:none;opacity:1;clip-path:none}
+#bsr-topbar,#bsr-topbar *,#bsr-navpill,#bsr-navpill *,.bsr-logo-wrap,#bsr-navwrap{animation:none!important;transition:none!important}
+#bsr-topbar,#bsr-emblem,#bsr-navpill,#bsr-navpill nav a,#bsr-topbar .bsr-sheen,#bsr-topbar .bsr-call,.bsr-logo-wrap,#bsr-navwrap.bsr-sticky{transform:none;opacity:1;clip-path:none}
 #bsr-progress,.bsr-navind{display:none}
+#bsr-ticker>div{animation:none}
+#bsr-wipe{display:none}
 }
 </style>
 </head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen"><!-- STATIONARY TOP LOGO BAR (fixed; stays on scroll) -->
@@ -75,9 +97,14 @@
       <span class="sm:hidden">Call</span>
     </a>
   </div>
+  <div id="bsr-ticker" class="hidden sm:block" aria-hidden="true">
+    <div>
+      <span>DHA Phase 9 Prism &mdash; Authorized Advisory Desk</span><span>Verified Plots, Files &amp; Turnkey Construction</span><span>Overseas Pakistanis &mdash; Private Video Walkthroughs</span><span>Call +92 42 111 277 999 for a Private Briefing</span><span>DHA Phase 9 Prism &mdash; Authorized Advisory Desk</span><span>Verified Plots, Files &amp; Turnkey Construction</span><span>Overseas Pakistanis &mdash; Private Video Walkthroughs</span><span>Call +92 42 111 277 999 for a Private Briefing</span>
+    </div>
+  </div>
   <span id="bsr-progress" aria-hidden="true"></span>
 </div>
-<!-- spacer compensating the fixed bar -->
+<div id="bsr-wipe" aria-hidden="true"></div><!-- spacer compensating the fixed bar -->
 <div id="bsr-topspacer" class="h-10 w-full" aria-hidden="true"></div><header id="bsr-navwrap" class="relative z-40 w-full pt-3 sm:pt-4"><div class="max-w-7xl mx-auto px-gutter-mobile sm:px-gutter flex items-center justify-center"><div id="bsr-navpill" class="bg-[#151c2e]/90 backdrop-blur-md border border-white/10 rounded-full px-1.5 sm:px-3 py-1.5 max-w-full overflow-x-auto scrollbar-none pointer-events-auto flex items-center justify-center gap-0.5 sm:gap-2 shadow-2xl"><nav class="flex items-center justify-center gap-0.5 sm:gap-2 whitespace-nowrap shrink-0"><a href="index.html" class="px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all shrink-0">Home</a><a href="about.html" class="px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all shrink-0">About Us</a><a href="services.html" aria-current="page" class="px-2 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#d4af37] to-[#e6ca65] text-[#0b1329] text-[10px] sm:text-sm font-semibold shadow-md shrink-0">Services</a><a href="blog.html" class="px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all shrink-0">Blog</a><a href="contact.html" class="px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all shrink-0">Contact Us</a></nav></div></div></header><main class="w-full bg-surface min-h-screen pt-space-xl"><div class="flex flex-col w-full">
 <!-- Top Editorial Title / Context Strip -->
 <section class="relative w-full bg-surface-container-lowest overflow-hidden">
@@ -824,6 +851,7 @@ Submit your plot specifications and an authorized Bin Suleman senior partner wil
   var pill=document.getElementById('bsr-navpill');
   var prog=document.getElementById('bsr-progress');
   var spacer=document.getElementById('bsr-topspacer');
+  var navwrap=document.getElementById('bsr-navwrap');
 
   /* keep the flow spacer exactly as tall as the fixed bar (also fixes the 4px mobile gap) */
   function syncSpacer(){if(spacer)spacer.style.height=bar.offsetHeight+'px';}
@@ -844,10 +872,58 @@ Submit your plot specifications and an authorized Bin Suleman senior partner wil
       nav.addEventListener('pointerleave',function(){ind.style.opacity='0';});
     }
   }
+
+  /* B1 - page transition. Cosmetic only, and skipped entirely when motion is reduced. */
+  if(!reduce){
+    var wipe=document.getElementById('bsr-wipe');
+    if(wipe){
+      document.addEventListener('click',function(e){
+        try{
+          if(e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+          var a=e.target&&e.target.closest?e.target.closest('a[href]'):null;
+          if(!a||a.target==='_blank'||a.hasAttribute('download'))return;
+          var href=a.getAttribute('href')||'';
+          if(!href||href.charAt(0)==='#')return;
+          if(!/\.html(\?|#|$)/i.test(href))return;
+          if(a.host&&a.host!==location.host)return;
+          e.preventDefault();
+          document.documentElement.classList.add('bsr-leaving');
+          requestAnimationFrame(function(){requestAnimationFrame(function(){
+            document.documentElement.classList.add('bsr-go');
+            setTimeout(function(){location.href=href;},380);
+          });});
+        }catch(err){}
+      });
+      /* back/forward-cache restore must never leave the curtain up */
+      window.addEventListener('pageshow',function(){
+        document.documentElement.classList.remove('bsr-leaving','bsr-go');
+      });
+    }
+  }
+
   if(reduce)return;
 
-  /* S1 + S2 - rAF-throttled scroll handler */
-  var last=null,ticking=false;
+  /* S3 - sticky nav needs a placeholder so the page never jumps when the nav goes fixed */
+  var navph=null,navH=0,stickLast=false;
+  if(navwrap){
+    navph=document.createElement('div');
+    navph.id='bsr-navph';navph.setAttribute('aria-hidden','true');
+    navwrap.parentNode.insertBefore(navph,navwrap.nextSibling);
+    navH=navwrap.offsetHeight;
+    navph.style.height=navH+'px';
+  }
+  function remeasure(){
+    if(!navwrap)return;
+    var was=navwrap.classList.contains('bsr-sticky');
+    if(was)navwrap.classList.remove('bsr-sticky');
+    navH=navwrap.offsetHeight;
+    if(navph)navph.style.height=navH+'px';
+    if(was)navwrap.classList.add('bsr-sticky');
+  }
+  window.addEventListener('resize',remeasure,{passive:true});
+
+  /* S1 + S2 + S3 - rAF-throttled scroll loop */
+  var last=null,prevY=0,ticking=false;
   function frame(){
     ticking=false;
     var y=window.pageYOffset||document.documentElement.scrollTop||0;
@@ -857,6 +933,22 @@ Submit your plot specifications and an authorized Bin Suleman senior partner wil
       var max=document.documentElement.scrollHeight-window.innerHeight;
       prog.style.transform='scaleX('+(max>0?Math.min(1,y/max):0)+')';
     }
+    if(navwrap){
+      var stick=y>320;
+      navwrap.style.top=bar.offsetHeight+'px';
+      if(stick!==stickLast){
+        navwrap.classList.toggle('bsr-sticky',stick);
+        if(navph){navph.style.display=stick?'block':'none';navph.style.height=navH+'px';}
+        stickLast=stick;
+      }
+      if(stick){
+        if(y<prevY-2)navwrap.classList.add('bsr-show');
+        else if(y>prevY+2)navwrap.classList.remove('bsr-show');
+      }else{
+        navwrap.classList.remove('bsr-show');
+      }
+    }
+    prevY=y;
   }
   window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(frame);}},{passive:true});
   frame();

@@ -54,12 +54,34 @@
 #bsr-topbar.bsr-scrolled #bsr-emblem{transform:scale(.88)}
 /* S2 - gold reading-progress line pinned to the bar's bottom edge */
 #bsr-progress{position:absolute;left:0;bottom:-1px;height:2px;width:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,#d4af37,#fed65b,#fff3c4);pointer-events:none;will-change:transform}
+/* ============ 5. STICKY NAV (S3) ============ */
+/* becomes fixed under the top bar, slides down on scroll-up and away on scroll-down */
+#bsr-navwrap.bsr-sticky{position:fixed;left:0;right:0;z-index:45;will-change:transform;transform:translateY(-200%);transition:transform .35s var(--bsr-ease)}
+#bsr-navwrap.bsr-sticky.bsr-show{transform:translateY(0)}
+#bsr-navph{display:none}
 
-/* ============ 5. ACCESSIBILITY FLOOR ============ */
+/* ============ 6. TOP BAR TICKER (B2) ============ */
+#bsr-ticker{overflow:hidden;background-color:rgba(0,0,0,.28);border-top:1px solid rgba(254,214,91,.18)}
+#bsr-ticker>div{display:flex;width:max-content;animation:bsrMarquee 46s linear infinite}
+#bsr-ticker:hover>div{animation-play-state:paused}
+#bsr-ticker span{display:inline-flex;align-items:center;gap:.6rem;padding:.32rem 0 .36rem;font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:rgba(254,214,91,.92);white-space:nowrap}
+#bsr-ticker span::after{content:'';width:4px;height:4px;border-radius:9999px;background:rgba(254,214,91,.5);margin-left:1.9rem}
+@keyframes bsrMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============ 7. PAGE TRANSITION (B1) ============ */
+/* pure CSS arrival (lifts even if the script never runs) + class-driven departure */
+#bsr-wipe{position:fixed;inset:0;z-index:70;pointer-events:none;background:linear-gradient(150deg,#080d1a 0%,#151c2e 55%,#080d1a 100%);border-bottom:2px solid rgba(254,214,91,.5);transform:scaleY(1);transform-origin:top;animation:bsrWipeAway .45s var(--bsr-ease) .04s forwards}
+@keyframes bsrWipeAway{to{transform:scaleY(0)}}
+html.bsr-leaving #bsr-wipe{animation:none;transform:scaleY(0);transform-origin:bottom;border-bottom:0;border-top:2px solid rgba(254,214,91,.5)}
+html.bsr-leaving.bsr-go #bsr-wipe{transform:scaleY(1);transition:transform .4s var(--bsr-ease)}
+
+/* ============ 8. ACCESSIBILITY FLOOR ============ */
 @media (prefers-reduced-motion: reduce){
-#bsr-topbar,#bsr-topbar *,#bsr-navpill,#bsr-navpill *,.bsr-logo-wrap{animation:none!important;transition:none!important}
-#bsr-topbar,#bsr-emblem,#bsr-navpill,#bsr-navpill nav a,#bsr-topbar .bsr-sheen,#bsr-topbar .bsr-call,.bsr-logo-wrap{transform:none;opacity:1;clip-path:none}
+#bsr-topbar,#bsr-topbar *,#bsr-navpill,#bsr-navpill *,.bsr-logo-wrap,#bsr-navwrap{animation:none!important;transition:none!important}
+#bsr-topbar,#bsr-emblem,#bsr-navpill,#bsr-navpill nav a,#bsr-topbar .bsr-sheen,#bsr-topbar .bsr-call,.bsr-logo-wrap,#bsr-navwrap.bsr-sticky{transform:none;opacity:1;clip-path:none}
 #bsr-progress,.bsr-navind{display:none}
+#bsr-ticker>div{animation:none}
+#bsr-wipe{display:none}
 }
 </style>
 </head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen overflow-x-hidden overflow-y-auto"><div id="top-announcement-bar" class="bg-[#0b1329] text-surface-variant text-[11px] font-label-md border-b border-surface-container-highest/15 px-gutter py-1.5 z-50 relative flex items-center justify-center"><div class="max-w-7xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between gap-space-xs px-gutter-mobile sm:px-gutter py-0.5 text-center sm:text-left"><div class="flex items-center justify-center gap-space-xs flex-wrap"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPxrs9lAxrEmXADtQVZG5Wak6P9kLFw9FMyfp6AlU6gf3OpEB8aZSju_WLOO76f8k4pgpU6PwXu6YEWWjC645RmVcKMT1hCMA1SEkFmDvZzWiIucTVdZfnYsOQXGPNFcBewf0eUuQw-isho89TfX3aiTFFzKKo8Es_jb0ZAra2HL_3hQ1NRFv-bO6YyVLoN7_V3XsdDli9X0Qv4kc3vD5opM-3P5FYjMwKGSqA013PFdHXoT-kAea7joVAsVskwRVuow" alt="Bin Suleman Real Estate" class="h-5 w-5 object-contain drop-shadow-[0_2px_8px_rgba(254,214,91,0.25)]"><span class="px-space-xs py-0.5 rounded bg-secondary-container/20 text-secondary-container font-label-caps text-[10px] tracking-wider uppercase font-bold border border-secondary-container/30">BIN SULEMAN REAL ESTATE &amp; BUILDERS</span></div><div class="hidden sm:flex items-center gap-space-md text-[11px] text-surface-variant"><a href="tel:+923000000000" class="text-secondary-fixed hover:text-surface-bright transition-colors font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">call</span> Direct Desk: +92 300 0000000</a></div></div></div><header class="z-50 relative w-full pt-space-sm pb-space-sm"><div class="max-w-7xl mx-auto px-gutter flex items-center justify-center"><div class="bg-[#151c2e]/90 backdrop-blur-md border border-white/10 rounded-full px-2 sm:px-3 py-1.5 flex items-center justify-center gap-1 sm:gap-2 shadow-2xl"><nav class="flex items-center justify-center gap-1 sm:gap-2 whitespace-nowrap"><a href="#" data-path="home" class="px-2.5 sm:px-4 py-1.5 text-xs sm:text-sm font-medium rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-200">Home</a><a href="#" data-path="about-us" aria-current="page" class="px-2.5 sm:px-4 py-1.5 text-xs sm:text-sm font-semibold rounded-full bg-gradient-to-r from-[#d4af37] to-[#e6ca65] text-[#0b1329] shadow-md transition-all duration-200">About Us</a><a href="#" data-path="services" class="px-2.5 sm:px-4 py-1.5 text-xs sm:text-sm font-medium rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-200">Services</a><a href="#" data-path="blog" class="px-2.5 sm:px-4 py-1.5 text-xs sm:text-sm font-medium rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-200">Blog</a><a href="#" data-path="contact-us" class="px-2.5 sm:px-4 py-1.5 text-xs sm:text-sm font-medium rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-200">Contact Us</a></nav></div></div></header><main class="w-full bg-surface min-h-screen"><div class="flex flex-col w-full">
@@ -418,6 +440,7 @@
   var pill=document.getElementById('bsr-navpill');
   var prog=document.getElementById('bsr-progress');
   var spacer=document.getElementById('bsr-topspacer');
+  var navwrap=document.getElementById('bsr-navwrap');
 
   /* keep the flow spacer exactly as tall as the fixed bar (also fixes the 4px mobile gap) */
   function syncSpacer(){if(spacer)spacer.style.height=bar.offsetHeight+'px';}
@@ -438,10 +461,58 @@
       nav.addEventListener('pointerleave',function(){ind.style.opacity='0';});
     }
   }
+
+  /* B1 - page transition. Cosmetic only, and skipped entirely when motion is reduced. */
+  if(!reduce){
+    var wipe=document.getElementById('bsr-wipe');
+    if(wipe){
+      document.addEventListener('click',function(e){
+        try{
+          if(e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+          var a=e.target&&e.target.closest?e.target.closest('a[href]'):null;
+          if(!a||a.target==='_blank'||a.hasAttribute('download'))return;
+          var href=a.getAttribute('href')||'';
+          if(!href||href.charAt(0)==='#')return;
+          if(!/\.html(\?|#|$)/i.test(href))return;
+          if(a.host&&a.host!==location.host)return;
+          e.preventDefault();
+          document.documentElement.classList.add('bsr-leaving');
+          requestAnimationFrame(function(){requestAnimationFrame(function(){
+            document.documentElement.classList.add('bsr-go');
+            setTimeout(function(){location.href=href;},380);
+          });});
+        }catch(err){}
+      });
+      /* back/forward-cache restore must never leave the curtain up */
+      window.addEventListener('pageshow',function(){
+        document.documentElement.classList.remove('bsr-leaving','bsr-go');
+      });
+    }
+  }
+
   if(reduce)return;
 
-  /* S1 + S2 - rAF-throttled scroll handler */
-  var last=null,ticking=false;
+  /* S3 - sticky nav needs a placeholder so the page never jumps when the nav goes fixed */
+  var navph=null,navH=0,stickLast=false;
+  if(navwrap){
+    navph=document.createElement('div');
+    navph.id='bsr-navph';navph.setAttribute('aria-hidden','true');
+    navwrap.parentNode.insertBefore(navph,navwrap.nextSibling);
+    navH=navwrap.offsetHeight;
+    navph.style.height=navH+'px';
+  }
+  function remeasure(){
+    if(!navwrap)return;
+    var was=navwrap.classList.contains('bsr-sticky');
+    if(was)navwrap.classList.remove('bsr-sticky');
+    navH=navwrap.offsetHeight;
+    if(navph)navph.style.height=navH+'px';
+    if(was)navwrap.classList.add('bsr-sticky');
+  }
+  window.addEventListener('resize',remeasure,{passive:true});
+
+  /* S1 + S2 + S3 - rAF-throttled scroll loop */
+  var last=null,prevY=0,ticking=false;
   function frame(){
     ticking=false;
     var y=window.pageYOffset||document.documentElement.scrollTop||0;
@@ -451,6 +522,22 @@
       var max=document.documentElement.scrollHeight-window.innerHeight;
       prog.style.transform='scaleX('+(max>0?Math.min(1,y/max):0)+')';
     }
+    if(navwrap){
+      var stick=y>320;
+      navwrap.style.top=bar.offsetHeight+'px';
+      if(stick!==stickLast){
+        navwrap.classList.toggle('bsr-sticky',stick);
+        if(navph){navph.style.display=stick?'block':'none';navph.style.height=navH+'px';}
+        stickLast=stick;
+      }
+      if(stick){
+        if(y<prevY-2)navwrap.classList.add('bsr-show');
+        else if(y>prevY+2)navwrap.classList.remove('bsr-show');
+      }else{
+        navwrap.classList.remove('bsr-show');
+      }
+    }
+    prevY=y;
   }
   window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(frame);}},{passive:true});
   frame();
