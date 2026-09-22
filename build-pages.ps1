@@ -306,10 +306,14 @@ $videoBlock = @'
       <p class="text-xs sm:text-sm text-on-surface-variant max-w-md">A guided visual tour of Lahore's most ambitious master-planned community — presented by Bin Suleman Real Estate &amp; Builders.</p>
     </div>
     <div class="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-[#0b1329] border border-slate-200">
-      <video class="w-full h-auto max-h-[80vh] bg-black" controls preload="metadata" poster="__POSTER__">
-        <source src="assets/video/promo.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+      <div class="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-[#0b1329] border border-slate-200">
+      <img src="__POSTER__" alt="DHA Phase 9 Prism official showreel thumbnail" class="w-full h-auto max-h-[80vh] object-cover">
+      <button type="button" data-yt="oKLqG8-YquY" aria-label="Play the DHA Phase 9 Prism showreel on YouTube" onclick="(function(b){var c=b.parentNode,f=document.createElement('iframe');f.title='DHA Phase 9 Prism showreel';f.src='https://www.youtube.com/embed/'+b.getAttribute('data-yt')+'?autoplay=1&amp;rel=0';f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';f.allowFullscreen=true;f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0';c.textContent='';c.appendChild(f);})(this)" class="absolute inset-0 w-full flex items-center justify-center group cursor-pointer" style="border:0;padding:0;background:transparent">
+        <span class="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-secondary-container/95 shadow-2xl group-hover:scale-110 transition-transform">
+          <span class="material-symbols-outlined text-3xl sm:text-4xl text-[#0b1329]">play_arrow</span>
+        </span>
+      </button>
+    </div>
     </div>
   </div>
 </section>
@@ -367,7 +371,7 @@ foreach ($src in $pages.Keys) {
   $facebook = 'https://www.facebook.com/BinSulemanRealEstateOfficial'
   # placeholder URLs pointing at bare domains
   $html = [regex]::Replace($html, 'https?://(www\.)?tiktok\.com[^"''>\s]*', $tiktok)
-  $html = [regex]::Replace($html, 'https?://(www\.)?youtube\.com[^"''>\s]*', $youtube)
+  $html = [regex]::Replace($html, 'https?://(www\.)?youtube\.com/(?!embed/)[^"''>\s]*', $youtube)
   # footer social icons with dead href="#" placeholders
   $html = [regex]::Replace($html, '(<a[^>]*aria-label="TikTok"[^>]*?)href="#"', ('$1href="' + $tiktok + '" target="_blank" rel="noopener"'))
   $html = [regex]::Replace($html, '(<a[^>]*aria-label="YouTube"[^>]*?)href="#"', ('$1href="' + $youtube + '" target="_blank" rel="noopener"'))
@@ -387,7 +391,7 @@ foreach ($src in $pages.Keys) {
     $html = [regex]::Replace($html, '(</title>)', ('$1<meta name="description" content="' + $desc[$out] + '">'))
   }
   # 5. promo video block on home page
-  if ($out -eq 'index.html' -and $html -notmatch 'promo.mp4') {
+  if ($out -eq 'index.html' -and $html -notmatch 'oKLqG8-YquY') {
     $block = $videoBlock.Replace('__POSTER__', $poster)
     $html = $html.Replace('<!-- 8. OFFICE VISIT & CALL CONSULTATION CTA SECTION -->', ($block + "`r`n" + '<!-- 8. OFFICE VISIT & CALL CONSULTATION CTA SECTION -->'))
   }
