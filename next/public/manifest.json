@@ -1,0 +1,12 @@
+{
+  "version": "1.0",
+  "name": "Bin Suleman Real Estate & Builders",
+  "short_name": "BSR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf8ff",
+  "theme_color": "#0b1329",
+  "icons": [
+    { "src": "/images/bsr-logo.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
