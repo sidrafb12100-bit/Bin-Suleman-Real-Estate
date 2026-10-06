@@ -38,9 +38,9 @@ export const leaders: Leader[] = [
   },
   {
     name: 'Muhammad Kamran Sharif',
-    role: 'Senior Agent',
+    role: 'Marketing Director',
     badge: 'DHA Conveyance Lead',
-    bio: 'Bringing 18+ years of experience in luxury homes and prime residential plots, Kamran is dedicated to helping families and buyers secure their ideal properties with complete peace of mind. His deep local network and hassle-free documentation process ensure a smooth, transparent transaction every time.',
+    bio: 'With over 15 years of experience driving high-impact brand campaigns and digital performance marketing, Kamran specializes in scaling market presence and accelerating revenue growth. A strategic leader adept at market research, ROI optimization, and cross-channel campaigns, he translates consumer insights into high-converting commercial success.',
     footer: 'Lahore High Court Bar',
     linkLabel: 'Verification Scope',
     image: '/images/MUHAMMAD KAMRAN SHARIF.webp',
