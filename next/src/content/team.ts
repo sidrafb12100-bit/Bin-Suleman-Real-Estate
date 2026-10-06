@@ -39,10 +39,10 @@ export const leaders: Leader[] = [
   {
     name: 'Muhammad Kamran Sharif',
     role: 'Marketing Director',
-    badge: 'DHA Conveyance Lead',
+    badge: '15+ Yrs Marketing Experience',
     bio: 'With over 15 years of experience driving high-impact brand campaigns and digital performance marketing, Kamran specializes in scaling market presence and accelerating revenue growth. A strategic leader adept at market research, ROI optimization, and cross-channel campaigns, he translates consumer insights into high-converting commercial success.',
-    footer: 'Lahore High Court Bar',
-    linkLabel: 'Verification Scope',
+    footer: 'Brand Strategy & Performance Marketing',
+    linkLabel: 'Campaign Portfolio',
     image: '/images/MUHAMMAD KAMRAN SHARIF.webp',
   },
   {
