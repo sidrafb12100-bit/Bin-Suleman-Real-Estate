@@ -38,9 +38,9 @@ export const leaders: Leader[] = [
   },
   {
     name: 'Muhammad Kamran Sharif',
-    role: 'Head of Legal & File Verification',
+    role: 'Senior Agent',
     badge: 'DHA Conveyance Lead',
-    bio: 'Specialized in DHA estate transfer protocols, court clearances, and Overseas Pakistanis Power of Attorney verification with the Ministry of Foreign Affairs.',
+    bio: 'Bringing 18+ years of experience in luxury homes and prime residential plots, Kamran is dedicated to helping families and buyers secure their ideal properties with complete peace of mind. His deep local network and hassle-free documentation process ensure a smooth, transparent transaction every time.',
     footer: 'Lahore High Court Bar',
     linkLabel: 'Verification Scope',
     image: '/images/MUHAMMAD KAMRAN SHARIF.webp',
