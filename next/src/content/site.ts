@@ -10,12 +10,6 @@ export const site = {
   get whatsappHref() {
     return 'https://wa.me/' + this.whatsappNumber;
   },
-  ticker: [
-    'DHA Phase 9 Prism — Authorized Advisory Desk',
-    'Verified Plots, Files & Turnkey Construction',
-    'Overseas Pakistanis — Private Video Walkthroughs',
-    'Call +92 42 111 277 999 for a Private Briefing',
-  ],
   nav: [
     { label: 'Home', href: '/' },
     { label: 'About Us', href: '/about' },

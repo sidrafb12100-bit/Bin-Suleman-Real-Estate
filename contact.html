@@ -103,14 +103,6 @@
 #bsr-navwrap.bsr-sticky.bsr-show{transform:translateY(0)}
 #bsr-navph{display:none}
 
-/* ============ 6. TOP BAR TICKER (B2) ============ */
-#bsr-ticker{overflow:hidden;background-color:rgba(0,0,0,.28);border-top:1px solid rgba(254,214,91,.18)}
-#bsr-ticker>div{display:flex;width:max-content;animation:bsrMarquee 46s linear infinite}
-#bsr-ticker:hover>div{animation-play-state:paused}
-#bsr-ticker span{display:inline-flex;align-items:center;gap:.6rem;padding:.32rem 0 .36rem;font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:rgba(254,214,91,.92);white-space:nowrap}
-#bsr-ticker span::after{content:'';width:4px;height:4px;border-radius:9999px;background:rgba(254,214,91,.5);margin-left:1.9rem}
-@keyframes bsrMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
 /* ============ 7. PAGE TRANSITION (B1) ============ */
 /* pure CSS arrival (lifts even if the script never runs) + class-driven departure */
 #bsr-wipe{position:fixed;inset:0;z-index:70;pointer-events:none;background:linear-gradient(150deg,#080d1a 0%,#151c2e 55%,#080d1a 100%);border-bottom:2px solid rgba(254,214,91,.5);transform:scaleY(1);transform-origin:top;animation:bsrWipeAway .45s var(--bsr-ease) .04s forwards}
@@ -123,7 +115,6 @@ html.bsr-leaving.bsr-go #bsr-wipe{transform:scaleY(1);transition:transform .4s v
 #bsr-topbar,#bsr-topbar *,#bsr-navpill,#bsr-navpill *,.bsr-logo-wrap,#bsr-navwrap{animation:none!important;transition:none!important}
 #bsr-topbar,#bsr-emblem,#bsr-navpill,#bsr-navpill nav a,#bsr-topbar .bsr-sheen,#bsr-topbar .bsr-call,.bsr-logo-wrap,#bsr-navwrap.bsr-sticky{transform:none;opacity:1;clip-path:none}
 #bsr-progress,.bsr-navind{display:none}
-#bsr-ticker>div{animation:none}
 #bsr-wipe{display:none}
 }
 </style>
@@ -140,11 +131,6 @@ html.bsr-leaving.bsr-go #bsr-wipe{transform:scaleY(1);transition:transform .4s v
       <span class="hidden sm:inline">+92 42 111 277 999</span>
       <span class="sm:hidden">Call</span>
     </a>
-  </div>
-  <div id="bsr-ticker" class="hidden sm:block" aria-hidden="true">
-    <div>
-      <span>DHA Phase 9 Prism &mdash; Authorized Advisory Desk</span><span>Verified Plots, Files &amp; Turnkey Construction</span><span>Overseas Pakistanis &mdash; Private Video Walkthroughs</span><span>Call +92 42 111 277 999 for a Private Briefing</span><span>DHA Phase 9 Prism &mdash; Authorized Advisory Desk</span><span>Verified Plots, Files &amp; Turnkey Construction</span><span>Overseas Pakistanis &mdash; Private Video Walkthroughs</span><span>Call +92 42 111 277 999 for a Private Briefing</span>
-    </div>
   </div>
   <span id="bsr-progress" aria-hidden="true"></span>
 </div>

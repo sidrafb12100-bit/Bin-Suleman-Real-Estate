@@ -9,7 +9,6 @@ import { site } from '@/content/site';
  * Faithful port of the original top bar + sticky pill nav logic:
  * - bar gains weight after 24px scroll, emblem condenses
  * - gold reading-progress line
- * - ticker marquee (CSS-driven)
  * - sticky nav engages at 320px, shows on scroll-up / hides on scroll-down,
  *   placeholder keeps layout stable, desktop-only +10px gap, inline `top`
  *   applied only while sticky (desktop bugfix) — identical to the site today
@@ -172,13 +171,6 @@ export default function SiteHeader() {
             <span className="hidden sm:inline">{site.phoneDisplay}</span>
             <span className="sm:hidden">Call</span>
           </a>
-        </div>
-        <div id="bsr-ticker" className="hidden sm:block" aria-hidden="true">
-          <div>
-            {[...site.ticker, ...site.ticker].map((t, i) => (
-              <span key={i}>{t}</span>
-            ))}
-          </div>
         </div>
         <span ref={progRef} id="bsr-progress" aria-hidden="true" />
       </div>
