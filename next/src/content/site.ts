@@ -12,6 +12,7 @@ export const site = {
   },
   nav: [
     { label: 'Home', href: '/' },
+    { label: 'Listings', href: '/listings' },
     { label: 'About Us', href: '/about' },
     { label: 'Services', href: '/services' },
     { label: 'Blog', href: '/blog' },

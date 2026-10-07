@@ -4,6 +4,7 @@ Official sales partner website for DHA Phase 9 Prism, Lahore.
 
 ## Pages
 - `index.html` — Home (hero, project showcase, promo showreel, booking CTA)
+- `listings.html` — Listings (filterable inventory: residential, commercial, files)
 - `about.html` — About Us (leadership, DHA standards, testimonials)
 - `services.html` — Services (plot advisory, commercial trading, transfers, construction)
 - `blog.html` — Market Insights (DHA Phase 9 Prism market intelligence)

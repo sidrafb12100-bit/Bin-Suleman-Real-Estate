@@ -30,7 +30,8 @@ export default function SiteHeader() {
     if (!bar || !spacer || !navwrap) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const desk = window.matchMedia('(min-width: 640px)');
-    const GAP = 10;
+    /* Nav sits flush against the fixed bar (no gap) */
+    const GAP = 0;
     const syncSpacer = () => {
       spacer.style.height = bar.offsetHeight + (desk.matches ? GAP : 0) + 'px';
     };
@@ -176,29 +177,30 @@ export default function SiteHeader() {
       </div>
       {/* spacer compensating the fixed bar (height synced by the scroll loop) */}
       <div ref={spacerRef} id="bsr-topspacer" className="h-10 w-full" aria-hidden="true" />
-      <header ref={navRefCB} id="bsr-navwrap" className="relative z-40 w-full pt-3 sm:pt-4">
-        <div className="max-w-7xl mx-auto px-gutter-mobile sm:px-gutter flex items-center justify-center">
-          <div
-            id="bsr-navpill"
-            className="bg-[#151c2e]/90 backdrop-blur-md border border-white/10 rounded-full px-1.5 sm:px-3 py-1.5 max-w-full overflow-x-auto scrollbar-none pointer-events-auto flex items-center justify-center gap-0.5 sm:gap-2 shadow-2xl"
-          >
-            <nav className="flex items-center justify-center gap-0.5 sm:gap-2 whitespace-nowrap shrink-0">
-              {site.nav.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={isActive(item.href) ? 'page' : undefined}
-                  className={
-                    isActive(item.href)
-                      ? 'px-2 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#d4af37] to-[#e6ca65] text-[#0b1329] text-[10px] sm:text-sm font-semibold shadow-md shrink-0'
-                      : 'px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all shrink-0'
-                  }
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
+      <header ref={navRefCB} id="bsr-navwrap" className="relative z-40 w-full">
+        <div
+          id="bsr-navpill"
+          className="w-full bg-[#080d1a]/95 backdrop-blur-md border-b border-[#fed65b]/25 px-3 sm:px-6 py-1.5 max-w-full overflow-x-auto scrollbar-none pointer-events-auto flex items-center justify-center"
+        >
+          <nav className="flex items-center justify-center gap-0.5 sm:gap-1 whitespace-nowrap shrink-0">
+            {site.nav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                className={
+                  isActive(item.href)
+                    ? 'inline-flex items-center gap-1.5 px-3 py-2 text-[11px] sm:text-xs font-bold text-[#fed65b] shrink-0'
+                    : 'inline-flex items-center gap-1.5 px-3 py-2 text-[11px] sm:text-xs font-semibold text-slate-300 hover:text-[#fed65b] transition-colors shrink-0'
+                }
+              >
+                {item.label}
+                {item.href === '/listings' && (
+                  <span className="bsr-navdot" aria-hidden="true" />
+                )}
+              </Link>
+            ))}
+          </nav>
         </div>
       </header>
       <div ref={navphRef} id="bsr-navph" aria-hidden="true" />

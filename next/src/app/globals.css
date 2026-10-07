@@ -39,8 +39,13 @@
 #bsr-navpill nav a:nth-child(3) { animation-delay: .4s; }
 #bsr-navpill nav a:nth-child(4) { animation-delay: .47s; }
 #bsr-navpill nav a:nth-child(5) { animation-delay: .54s; }
+#bsr-navpill nav a:nth-child(6) { animation-delay: .61s; }
 #bsr-navpill nav a[aria-current='page'] { animation: bsrPillSweep .5s var(--bsr-ease) .62s backwards; }
 @keyframes bsrPillSweep { from { clip-path: inset(0 100% 0 0 round 9999px); } to { clip-path: inset(0 0 0 0 round 9999px); } }
+
+/* Blinking golden dot (nav "Listings" badge) */
+.bsr-navdot { display: inline-block; width: 7px; height: 7px; border-radius: 9999px; background: #fed65b; box-shadow: 0 0 6px rgba(254, 214, 91, .9); animation: bsrDotBlink 1.3s ease-in-out infinite; }
+@keyframes bsrDotBlink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .25; transform: scale(.7); } }
 
 /* ============ 2. AMBIENT ============ */
 #bsr-topbar .bsr-sheen { background-image: linear-gradient(100deg, #fed65b 0%, #fff9e0 42%, #fed65b 58%, #fed65b 100%); background-size: 250% 100%; background-position: 150% 0; -webkit-background-clip: text; background-clip: text; color: transparent; animation: bsrFadeUp .5s var(--bsr-ease) .22s forwards, bsrSheen 6s linear 1.5s infinite; }
@@ -56,7 +61,7 @@
 #bsr-navpill nav a::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 4px; height: 2px; border-radius: 9999px; background: linear-gradient(90deg, #d4af37, #e6ca65); transform: scaleX(0); transform-origin: left; transition: transform .3s var(--bsr-ease); }
 #bsr-navpill nav a:hover::after { transform: scaleX(1); }
 #bsr-navpill nav a[aria-current='page']::after { display: none; }
-.bsr-navind { position: absolute; top: 0; bottom: 0; left: 0; border-radius: 9999px; pointer-events: none; opacity: 0; background: linear-gradient(90deg, rgba(212, 175, 55, .16), rgba(230, 202, 101, .3)); border: 1px solid rgba(254, 214, 91, .45); transition: transform .28s var(--bsr-ease), width .28s var(--bsr-ease), opacity .2s; }
+.bsr-navind { position: absolute; left: 0; bottom: 4px; top: auto; height: 2px; border-radius: 0; pointer-events: none; opacity: 0; background: linear-gradient(90deg, #d4af37, #fed65b); transition: transform .28s var(--bsr-ease), width .28s var(--bsr-ease), opacity .2s; }
 
 /* ============ 4. SCROLL-REACTIVE ============ */
 #bsr-topbar { transition: background-color .3s var(--bsr-ease), box-shadow .3s var(--bsr-ease), border-bottom-color .3s; }
@@ -80,5 +85,6 @@ html.bsr-leaving.bsr-go #bsr-wipe { transform: scaleY(1); transition: transform 
   #bsr-topbar, #bsr-topbar *, #bsr-navpill, #bsr-navpill *, .bsr-logo-wrap, #bsr-navwrap { animation: none !important; transition: none !important; }
   #bsr-topbar, #bsr-emblem, #bsr-navpill, #bsr-navpill nav a, #bsr-topbar .bsr-sheen, #bsr-topbar .bsr-call, .bsr-logo-wrap, #bsr-navwrap.bsr-sticky { transform: none; opacity: 1; clip-path: none; }
   #bsr-progress, .bsr-navind { display: none; }
+  .bsr-navdot { animation: none; }
   #bsr-wipe { display: none; }
 }

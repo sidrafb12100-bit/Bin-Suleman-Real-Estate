@@ -14,6 +14,7 @@ $pages = [ordered]@{
 }
 $navMap = [ordered]@{
   'Home'        = 'index.html'
+  'Listings'    = 'listings.html'
   'About Us'    = 'about.html'
   'Services'    = 'services.html'
   'Blog'        = 'blog.html'
@@ -59,9 +60,13 @@ $barAnimStyle = @'
 #bsr-navpill nav a:nth-child(3){animation-delay:.4s}
 #bsr-navpill nav a:nth-child(4){animation-delay:.47s}
 #bsr-navpill nav a:nth-child(5){animation-delay:.54s}
+#bsr-navpill nav a:nth-child(6){animation-delay:.61s}
 /* E5 - active gold pill wipes in left-to-right */
 #bsr-navpill nav a[aria-current="page"]{animation:bsrPillSweep .5s var(--bsr-ease) .62s backwards}
 @keyframes bsrPillSweep{from{clip-path:inset(0 100% 0 0 round 9999px)}to{clip-path:inset(0 0 0 0 round 9999px)}}
+/* Blinking golden dot (nav Listings badge) */
+.bsr-navdot{display:inline-block;width:7px;height:7px;border-radius:9999px;background:#fed65b;box-shadow:0 0 6px rgba(254,214,91,.9);animation:bsrDotBlink 1.3s ease-in-out infinite}
+@keyframes bsrDotBlink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.25;transform:scale(.7)}}
 
 /* ============ 2. AMBIENT ============ */
 /* A1 - gold sheen sweeping across "Bin Suleman" */
@@ -82,7 +87,7 @@ $barAnimStyle = @'
 #bsr-navpill nav a:hover::after{transform:scaleX(1)}
 #bsr-navpill nav a[aria-current="page"]::after{display:none}
 /* M2 - sliding gold indicator (positioned by the script) */
-.bsr-navind{position:absolute;top:0;bottom:0;left:0;border-radius:9999px;pointer-events:none;opacity:0;background:linear-gradient(90deg,rgba(212,175,55,.16),rgba(230,202,101,.3));border:1px solid rgba(254,214,91,.45);transition:transform .28s var(--bsr-ease),width .28s var(--bsr-ease),opacity .2s}
+.bsr-navind{position:absolute;left:0;bottom:4px;top:auto;height:2px;border-radius:0;pointer-events:none;opacity:0;background:linear-gradient(90deg,#d4af37,#fed65b);transition:transform .28s var(--bsr-ease),width .28s var(--bsr-ease),opacity .2s}
 
 /* ============ 4. SCROLL-REACTIVE ============ */
 /* S1 - the bar gains weight on scroll. Only colour/shadow/scale change, so there is NO layout shift. */
@@ -110,6 +115,7 @@ html.bsr-leaving.bsr-go #bsr-wipe{transform:scaleY(1);transition:transform .4s v
 #bsr-topbar,#bsr-topbar *,#bsr-navpill,#bsr-navpill *,.bsr-logo-wrap,#bsr-navwrap{animation:none!important;transition:none!important}
 #bsr-topbar,#bsr-emblem,#bsr-navpill,#bsr-navpill nav a,#bsr-topbar .bsr-sheen,#bsr-topbar .bsr-call,.bsr-logo-wrap,#bsr-navwrap.bsr-sticky{transform:none;opacity:1;clip-path:none}
 #bsr-progress,.bsr-navind{display:none}
+.bsr-navdot{animation:none}
 #bsr-wipe{display:none}
 }
 </style>
@@ -125,7 +131,7 @@ $barAnimJs = @'
   var spacer=document.getElementById('bsr-topspacer');
   var navwrap=document.getElementById('bsr-navwrap');
   var desk=window.matchMedia?window.matchMedia('(min-width:640px)'):null;
-  var GAP=10; /* desktop-only breathing room between the fixed bar and the nav */
+  var GAP=0; /* nav sits flush against the fixed bar */
 
   /* keep the flow spacer exactly as tall as the fixed bar (+ extra gap on desktop only) */
   function syncSpacer(){var g=(desk&&desk.matches)?GAP:0;if(spacer)spacer.style.height=(bar.offsetHeight+g)+'px';}
@@ -234,7 +240,7 @@ $barAnimJs = @'
 }catch(e){}});
 </script>
 '@
-  $outer = '<header id="bsr-navwrap" class="relative z-40 w-full pt-3 sm:pt-4">'
+  $outer = '<header id="bsr-navwrap" class="relative z-40 w-full">'
 $logoBar = @'
 <!-- STATIONARY TOP LOGO BAR (fixed; stays on scroll) -->
 <div id="bsr-topbar" class="fixed top-0 inset-x-0 z-50 w-full bg-[#080d1a]/95 backdrop-blur-md border-b border-[#fed65b]/25">
@@ -279,7 +285,7 @@ $waFloat = @'
   @media (prefers-reduced-motion: reduce) { .bsr-wa-ring { animation: none; opacity: 0; } .bsr-wa-btn { animation: none; } }
 </style>
 '@
-  $outer = '<header id="bsr-navwrap" class="relative z-40 w-full pt-3 sm:pt-4">'
+  $outer = '<header id="bsr-navwrap" class="relative z-40 w-full">'
 $videoBlock = @'
 <!-- 7.5 OFFICIAL PROMO SHOWREEL -->
 <section class="w-full py-12 sm:py-16 bg-white border-b border-slate-200/70">
@@ -319,17 +325,18 @@ foreach ($src in $pages.Keys) {
     $html = [regex]::Replace($html, $pattern, ('<a$1' + $target + '$2'))
   }
   # 2b. normalize responsive header pill -> in-flow so it scrolls away with the page
-  $outer = '<header id="bsr-navwrap" class="relative z-40 w-full pt-3 sm:pt-4">'
+  $outer = '<header id="bsr-navwrap" class="relative z-40 w-full">'
   $links = ''
   foreach ($label in $navMap.Keys) {
     $target = $navMap[$label]
     $active = ($target -eq $out)
-    $cls = if ($active) { 'px-2 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-[#d4af37] to-[#e6ca65] text-[#0b1329] text-[10px] sm:text-sm font-semibold shadow-md shrink-0' }
-           else { 'px-2 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all shrink-0' }
+    $cls = if ($active) { 'inline-flex items-center gap-1.5 px-3 py-2 text-[11px] sm:text-xs font-bold text-[#fed65b] shrink-0' }
+           else { 'inline-flex items-center gap-1.5 px-3 py-2 text-[11px] sm:text-xs font-semibold text-slate-300 hover:text-[#fed65b] transition-colors shrink-0' }
     $aria = if ($active) { ' aria-current="page"' } else { '' }
-    $links += ('<a href="' + $target + '"' + $aria + ' class="' + $cls + '">' + $label + '</a>')
+    $dot = if ($target -eq 'listings.html') { '<span class="bsr-navdot" aria-hidden="true"></span>' } else { '' }
+    $links += ('<a href="' + $target + '"' + $aria + ' class="' + $cls + '">' + $label + $dot + '</a>')
   }
-  $newHeader = $outer + '<div class="max-w-7xl mx-auto px-gutter-mobile sm:px-gutter flex items-center justify-center"><div id="bsr-navpill" class="bg-[#151c2e]/90 backdrop-blur-md border border-white/10 rounded-full px-1.5 sm:px-3 py-1.5 max-w-full overflow-x-auto scrollbar-none pointer-events-auto flex items-center justify-center gap-0.5 sm:gap-2 shadow-2xl"><nav class="flex items-center justify-center gap-0.5 sm:gap-2 whitespace-nowrap shrink-0">' + $links + '</nav></div></div></header>'
+  $newHeader = $outer + '<div id="bsr-navpill" class="w-full bg-[#080d1a]/95 backdrop-blur-md border-b border-[#fed65b]/25 px-3 sm:px-6 py-1.5 max-w-full overflow-x-auto scrollbar-none pointer-events-auto flex items-center justify-center"><nav class="flex items-center justify-center gap-0.5 sm:gap-1 whitespace-nowrap shrink-0">' + $links + '</nav></div></header>'
   $html = [regex]::Replace($html, '<header\b.*?</header>', $newHeader, 'Singleline')
   # 2c. remove legacy announcement/logo bars (index fixed aside, blog in-flow div)
   $html = [regex]::Replace($html, '<aside aria-label="Official Partnership Notice".*?</aside>\s*', '', 'Singleline')
