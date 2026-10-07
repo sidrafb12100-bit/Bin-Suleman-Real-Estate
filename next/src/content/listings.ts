@@ -1,100 +1,106 @@
 export type Listing = {
+  /** Plot reference from the ledger, e.g. 'A-356'. */
   ref: string;
+  /** Block badge shown top-left on the card, e.g. 'A Block'. */
+  block: string;
   title: string;
-  /** 'residential' | 'commercial' | 'file' — used by the filter tabs. */
-  type: 'residential' | 'commercial' | 'file';
-  sector: string;
-  size: string;
-  price: string;
-  status: string;
-  statusTone: 'gold' | 'green' | 'blue';
-  blurb: string;
-  image: string;
+  subtitle: string;
+  /** Owner's asking demand in PKR (recorded ledger value). */
+  demand: number;
+  /** Date the demand was recorded, formatted for display. */
+  date: string;
+  /** True when the owner marked the demand as final (non-negotiable). */
+  final?: boolean;
+  /** Highlighted card — orange border in the design. */
+  featured?: boolean;
 };
 
 /**
- * Listings shown on the /listings page.
- * Replace these placeholder entries with the live inventory — the cards,
- * filters and counts all derive from this array.
+ * Direct plots currently on the desk (source: handwritten demand ledger,
+ * "Direct plots with date"). Units from the ledger: "cr" = crore,
+ * plain numbers / "lac" = lakh. The cards, derived schedule of payments
+ * and totals all compute from this array.
  */
 export const listings: Listing[] = [
   {
-    ref: 'BSR-R-101',
-    title: '10 Marla Residential Plot',
-    type: 'residential',
-    sector: 'Sector A — Possession Ready',
-    size: '10 Marla (200 sq yd)',
-    price: 'PKR 2.65 Cr',
-    status: 'Possession Ready',
-    statusTone: 'green',
-    blurb: 'High ground elevation on a 40ft street, park-facing corner. Clear title, NDC verified, ready for immediate transfer.',
-    image: '/images/img-10-ab6axubgmm7f.jpg',
+    ref: 'A-356',
+    block: 'A Block',
+    title: 'Plot A-356',
+    subtitle: 'Direct plot',
+    demand: 40_000_000,
+    date: '05 Oct 2026',
+    featured: true,
   },
   {
-    ref: 'BSR-R-102',
-    title: '1 Kanal Residential Plot',
-    type: 'residential',
-    sector: 'Sector J — Central Boulevard',
-    size: '1 Kanal (450 sq yd)',
-    price: 'PKR 5.90 Cr',
-    status: 'New Listing',
-    statusTone: 'gold',
-    blurb: 'Prime boulevard-adjacent parcel with direct park sightlines. Ideal for a custom villa build under DHA building controls.',
-    image: '/images/img-17-ab6axuc64igh.jpg',
+    ref: 'A-1043',
+    block: 'A Block',
+    title: 'Plot A-1043',
+    subtitle: 'Direct plot',
+    demand: 40_000_000,
+    date: '02 Oct 2026',
   },
   {
-    ref: 'BSR-R-103',
-    title: '5 Marla Residential Plot',
-    type: 'residential',
-    sector: 'Sector Q — Growth Zone',
-    size: '5 Marla (125 sq yd)',
-    price: 'PKR 1.35 Cr',
-    status: 'Possession Ready',
-    statusTone: 'green',
-    blurb: 'Entry-size plot on a quiet internal street near the sector park. Verified documentation with zero encumbrances.',
-    image: '/images/img-18-ab6axucdzpct.jpg',
+    ref: 'F-23+24',
+    block: 'F Block — Pair',
+    title: 'Plots F-23 + F-24',
+    subtitle: 'Contiguous plot pair',
+    demand: 90_000_000,
+    date: '05 Oct 2026',
   },
   {
-    ref: 'BSR-C-201',
-    title: 'Main Commercial Avenue Parcel',
-    type: 'commercial',
-    sector: 'Main Commercial Avenue',
-    size: '4 Marla Commercial',
-    price: 'PKR 8.20 Cr',
-    status: 'High Yield',
-    statusTone: 'gold',
-    blurb: 'Frontage on the principal avenue with heavy daily traffic. Suited for retail flagship, clinic or branded food outlet.',
-    image: '/images/img-21-ab6axucmkmqe.jpg',
+    ref: 'F-820',
+    block: 'F Block',
+    title: 'Plot F-820',
+    subtitle: "Owner's final demand",
+    demand: 43_500_000,
+    date: '02 Oct 2026',
+    final: true,
   },
   {
-    ref: 'BSR-C-202',
-    title: 'Boulevard Commercial Strip',
-    type: 'commercial',
-    sector: 'Sector K — Commercial Hub',
-    size: '2 Marla Commercial',
-    price: 'PKR 3.40 Cr',
-    status: 'Rental Demand',
-    statusTone: 'blue',
-    blurb: 'Compact income-producing frontage opposite the sector market. Existing lease in place at a market-rate yield.',
-    image: '/images/img-22-ab6axucpsm4v.jpg',
+    ref: 'Q-820',
+    block: 'Q Block',
+    title: 'Plot Q-820',
+    subtitle: "Owner's final demand",
+    demand: 36_000_000,
+    date: '02 Oct 2026',
+    final: true,
   },
   {
-    ref: 'BSR-F-301',
-    title: 'DHA Phase 9 Prism File (1 Kanal)',
-    type: 'file',
-    sector: 'Balloted File — Sector allotment on possession',
-    size: '1 Kanal File',
-    price: 'PKR 4.15 Cr',
-    status: 'Verified File',
-    statusTone: 'blue',
-    blurb: 'Full chain-of-custody file with original DHA receipt set. Transfer handled end-to-end at the DHA transfer center.',
-    image: '/images/img-23-ab6axucyk1m8.jpg',
+    ref: 'Q-1262',
+    block: 'Q Block',
+    title: 'Plot Q-1262',
+    subtitle: 'Direct plot',
+    demand: 13_000_000,
+    date: '25 Nov 2026',
+  },
+  {
+    ref: 'F-1843',
+    block: 'F Block',
+    title: 'Plot F-1843',
+    subtitle: "Owner's final demand",
+    demand: 30_500_000,
+    date: '22 Nov 2026',
+    final: true,
+  },
+  {
+    ref: 'L-1434',
+    block: 'L Block',
+    title: 'Plot L-1434',
+    subtitle: 'Direct plot',
+    demand: 17_000_000,
+    date: '18 Nov 2026',
   },
 ];
 
-export const listingFilters: Array<{ id: Listing['type'] | 'all'; label: string }> = [
-  { id: 'all', label: 'All Listings' },
-  { id: 'residential', label: 'Residential' },
-  { id: 'commercial', label: 'Commercial' },
-  { id: 'file', label: 'Files' },
-];
+/** Format a PKR amount with western grouping: 40000000 -> '40,000,000'. */
+export const formatPKR = (amount: number): string =>
+  amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+/** Schedule-of-payment splits derived from a demand (mirrors the card design). */
+export const scheduleOf = (demand: number) => ({
+  downPayment: Math.round(demand * 0.2),
+  monthlyInstallment: Math.round(demand * 0.01),
+  ballot: Math.round(demand * 0.1),
+  balloon: Math.round(demand * 0.05),
+  possession: Math.round(demand * 0.2),
+});

@@ -1,19 +1,15 @@
-import ListingsHero from '@/components/listings/ListingsHero';
-import ListingsGrid from '@/components/listings/ListingsGrid';
-import ListingsCta from '@/components/listings/ListingsCta';
+import ListingsSection from '@/components/listings/ListingsSection';
 
 export const metadata = {
   title: 'Listings | Bin Suleman Real Estate & Builders',
   description:
-    'Live inventory for DHA Phase 9 Prism Lahore: possession-ready residential plots, commercial avenue parcels and verified DHA files, inspected on-ground by Bin Suleman Real Estate & Builders.',
+    'Direct plot listings from Bin Suleman Real Estate & Builders: plot references, recorded demand dates and a full schedule of payments for direct booking.',
 };
 
 export default function ListingsPage() {
   return (
-    <main className="w-full bg-surface min-h-screen overflow-x-hidden">
-      <ListingsHero />
-      <ListingsGrid />
-      <ListingsCta />
+    <main className="w-full min-h-screen overflow-x-hidden bg-[#0b1329]">
+      <ListingsSection />
     </main>
   );
 }
