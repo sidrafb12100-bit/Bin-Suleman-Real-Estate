@@ -47,11 +47,11 @@ export const leaders: Leader[] = [
   },
   {
     name: 'Tariq Abbassi',
-    role: 'Senior Architectural Planner',
+    role: 'Client Advisory',
     badge: 'PCATP Registered',
-    bio: "Directs Bin Suleman Builders' turnkey design wing. Expert in modern tropical brutalism and energy-efficient luxury residences calibrated to DHA building control regulations.",
-    footer: 'UET / NCA Master Fellow',
-    linkLabel: 'Portfolio Villas',
+    bio: 'Guides clients through every step of their property journey — from understanding requirements and shortlisting the right plots and files to coordinating site visits and closing paperwork. Takes a patient, consultative approach that keeps local and overseas buyers informed and confident at every stage.',
+    footer: 'Residential Advisory Desk',
+    linkLabel: 'Advisory Scope',
     image: '/images/Tariq Abbassi.webp',
   },
 ];
