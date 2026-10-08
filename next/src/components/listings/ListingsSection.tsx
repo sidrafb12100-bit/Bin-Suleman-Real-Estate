@@ -1,4 +1,4 @@
-import { listings, formatPKR, scheduleOf, type Listing } from '@/content/listings';
+import { listings, phase5Listings, formatPKR, scheduleOf, type Listing, type Phase5Listing } from '@/content/listings';
 import { site } from '@/content/site';
 
 /** One pricing-style plot card (mirrors the design mock). */
@@ -93,10 +93,72 @@ function ListingCard({ listing }: { listing: Listing }) {
   );
 }
 
-/** The Listings page's single section — DHA Prism 9 Plots (all active listings). */
+/** Compact requirement card for the DHA Phase 5 section (no published demand). */
+function Phase5Card({ listing }: { listing: Phase5Listing }) {
+  return (
+    <article className="flex flex-col bg-white rounded-3xl border border-slate-200 p-6 sm:p-7 shadow-[0_24px_50px_-28px_rgba(0,0,0,0.5)]">
+      {/* Block badge + phase tag */}
+      <div className="flex items-start justify-between gap-3">
+        <span className="inline-block px-4 py-2 rounded-full bg-[#d3820f] text-white font-label-caps text-label-caps uppercase tracking-wider text-center">
+          {listing.block}
+        </span>
+        <span className="font-label-caps text-label-caps uppercase text-slate-400 pt-1.5 shrink-0">
+          DHA Phase 5
+        </span>
+      </div>
+
+      {/* Title + price on request */}
+      <div className="flex items-start justify-between gap-4 mt-5">
+        <div className="min-w-0">
+          <h3 className="font-headline-md text-headline-md text-slate-900 leading-tight break-words">
+            {listing.title}
+          </h3>
+          <p className="font-body-sm text-body-sm text-slate-500 mt-1">{listing.subtitle}</p>
+        </div>
+        <div className="text-right shrink-0">
+          <span className="block font-label-caps text-label-caps uppercase text-slate-400">Total Price</span>
+          <span className="block font-headline-sm text-headline-sm font-extrabold text-[#e07b0c] mt-0.5">
+            PKR
+          </span>
+          <span className="block font-headline-md text-headline-md font-extrabold text-[#e07b0c] leading-tight">
+            On Request
+          </span>
+        </div>
+      </div>
+
+      {/* Detail note */}
+      <div className="mt-5 rounded-2xl bg-[#fdf7ea] border border-[#f3e2c0] p-4">
+        <span className="block font-label-caps text-label-caps uppercase text-slate-500 leading-relaxed">
+          Pair Availability
+        </span>
+        <span className="block mt-2 font-headline-sm text-headline-sm font-bold text-slate-900">
+          {listing.title} &mdash; {listing.block}
+        </span>
+        <span className="block font-body-sm text-body-sm text-slate-500 mt-1">
+          Contact us for the current demand and payment schedule.
+        </span>
+      </div>
+
+      <a
+        href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(
+          `I'm interested in the ${listing.ref} plot pair, DHA Phase 5. Please share details.`
+        )}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-7 inline-flex items-center justify-center gap-2 w-full px-6 py-4 rounded-xl bg-[#25D366] text-[#062b16] font-label-lg text-label-lg uppercase font-bold tracking-wide hover:bg-[#1ebe57] active:scale-[0.99] transition-all"
+      >
+        <span className="material-symbols-outlined text-xl" aria-hidden="true">chat</span>
+        Contact on WhatsApp
+      </a>
+    </article>
+  );
+}
+
+/** The Listings page sections — DHA Prism 9 Plots then DHA Phase 5 requirements. */
 export default function ListingsSection() {
   return (
-    <section id="listing-grid" aria-label="DHA Prism 9 Plots" className="relative w-full overflow-hidden bg-[#0b1329] py-space-xl lg:py-24">
+    <>
+      <section id="listing-grid" aria-label="DHA Prism 9 Plots" className="relative w-full overflow-hidden bg-[#0b1329] py-space-xl lg:py-24">
       {/* Ambient glows */}
       <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-secondary-container/10 blur-3xl pointer-events-none" />
       <div className="absolute -bottom-32 -left-16 h-[420px] w-[420px] rounded-full bg-[#e07b0c]/10 blur-3xl pointer-events-none" />
@@ -123,6 +185,39 @@ export default function ListingsSection() {
           ))}
         </div>
       </div>
-    </section>
+      </section>
+
+      {/* DHA Phase 5 — requirements (below the Prism section) */}
+      <section
+        id="phase5-grid"
+        aria-label="DHA Phase 5"
+        className="relative w-full overflow-hidden bg-[#0e1630] border-t border-[#fed65b]/20 py-space-xl lg:py-24"
+      >
+        {/* Ambient glows */}
+        <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-secondary-container/10 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-32 -right-16 h-[420px] w-[420px] rounded-full bg-[#e07b0c]/10 blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-gutter-mobile sm:px-gutter">
+          <div className="max-w-2xl">
+            <span className="inline-flex items-center gap-2 px-space-md py-space-xs rounded-full bg-secondary-container/15 text-secondary-container font-label-caps text-label-caps uppercase tracking-wider">
+              Requirements &bull; Pair Plots
+            </span>
+            <h2 className="font-headline-lg text-headline-lg text-surface-bright mt-space-xs">
+              DHA Phase 5
+            </h2>
+            <p className="font-body-md text-body-md text-slate-300 mt-space-sm">
+              M Block pair plots currently available on requirement &mdash; plot #46 + 47 and #180 + 181.
+              Tap the WhatsApp button on any pair to reach us directly with a pre-filled enquiry.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 mt-space-lg items-start">
+            {phase5Listings.map((listing) => (
+              <Phase5Card key={listing.ref} listing={listing} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

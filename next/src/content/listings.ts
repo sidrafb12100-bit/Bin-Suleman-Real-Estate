@@ -92,6 +92,22 @@ export const listings: Listing[] = [
   },
 ];
 
+/**
+ * Requirements section — DHA Phase 5, M Block pair plots (no published
+ * demands yet; cards show "Price on Request" and a WhatsApp enquiry button).
+ */
+export type Phase5Listing = {
+  ref: string;
+  block: string;
+  title: string;
+  subtitle: string;
+};
+
+export const phase5Listings: Phase5Listing[] = [
+  { ref: '46+47', block: 'M Block', title: 'Plots 46 + 47', subtitle: 'Contiguous pair plots' },
+  { ref: '180+181', block: 'M Block', title: 'Plots 180 + 181', subtitle: 'Contiguous pair plots' },
+];
+
 /** Format a PKR amount with western grouping: 40000000 -> '40,000,000'. */
 export const formatPKR = (amount: number): string =>
   amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
