@@ -182,7 +182,7 @@ export default function SiteHeader() {
           id="bsr-navpill"
           className="w-full bg-[#080d1a]/95 backdrop-blur-md border-b border-[#fed65b]/25 px-3 sm:px-6 py-1.5 max-w-full overflow-x-auto scrollbar-none pointer-events-auto flex items-center justify-center"
         >
-          <nav className="flex items-center justify-center gap-0.5 sm:gap-1 whitespace-nowrap shrink-0">
+          <nav className="flex flex-wrap items-center justify-center gap-x-0.5 gap-y-1.5 sm:flex-nowrap sm:gap-1 whitespace-nowrap">
             {site.nav.map((item) => (
               <Link
                 key={item.href}

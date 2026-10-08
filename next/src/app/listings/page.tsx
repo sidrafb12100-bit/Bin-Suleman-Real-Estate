@@ -3,7 +3,7 @@ import ListingsSection from '@/components/listings/ListingsSection';
 export const metadata = {
   title: 'Listings | Bin Suleman Real Estate & Builders',
   description:
-    'Direct plot listings from Bin Suleman Real Estate & Builders: plot references, recorded demand dates and a full schedule of payments for direct booking.',
+    'DHA Prism 9 Plots — active direct-plot listings from Bin Suleman Real Estate & Builders: plot references, recorded demand dates, a full schedule of payments and one-tap WhatsApp enquiry.',
 };
 
 export default function ListingsPage() {

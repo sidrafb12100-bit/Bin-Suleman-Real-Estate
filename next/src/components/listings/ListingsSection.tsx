@@ -1,4 +1,5 @@
 import { listings, formatPKR, scheduleOf, type Listing } from '@/content/listings';
+import { site } from '@/content/site';
 
 /** One pricing-style plot card (mirrors the design mock). */
 function ListingCard({ listing }: { listing: Listing }) {
@@ -78,19 +79,24 @@ function ListingCard({ listing }: { listing: Listing }) {
       </div>
 
       <a
-        href="/contact"
-        className="mt-7 inline-flex items-center justify-center w-full px-6 py-4 rounded-xl bg-gradient-to-r from-[#f5a623] to-[#e07b0c] text-white font-label-lg text-label-lg uppercase font-bold tracking-wide hover:to-[#c96a05] transition-colors"
+        href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(
+          `I'm interested in the ${listing.ref} plot, DHA Phase 9 Prism. Please share details.`
+        )}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-7 inline-flex items-center justify-center gap-2 w-full px-6 py-4 rounded-xl bg-[#25D366] text-[#062b16] font-label-lg text-label-lg uppercase font-bold tracking-wide hover:bg-[#1ebe57] active:scale-[0.99] transition-all"
       >
-        Book {listing.ref} Now
+        <span className="material-symbols-outlined text-xl" aria-hidden="true">chat</span>
+        Contact on WhatsApp
       </a>
     </article>
   );
 }
 
-/** The Listings page's single section — direct plot cards. */
+/** The Listings page's single section — DHA Prism 9 Plots (all active listings). */
 export default function ListingsSection() {
   return (
-    <section id="listing-grid" className="relative w-full overflow-hidden bg-[#0b1329] py-space-xl lg:py-24">
+    <section id="listing-grid" aria-label="DHA Prism 9 Plots" className="relative w-full overflow-hidden bg-[#0b1329] py-space-xl lg:py-24">
       {/* Ambient glows */}
       <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-secondary-container/10 blur-3xl pointer-events-none" />
       <div className="absolute -bottom-32 -left-16 h-[420px] w-[420px] rounded-full bg-[#e07b0c]/10 blur-3xl pointer-events-none" />
@@ -101,12 +107,13 @@ export default function ListingsSection() {
             Current Inventory &bull; Direct Plots
           </span>
           <h2 className="font-headline-lg text-headline-lg text-surface-bright mt-space-xs">
-            Plots Available for Direct Booking
+            DHA Prism 9 Plots
           </h2>
           <p className="font-body-md text-body-md text-slate-300 mt-space-sm">
-            Every card shows the plot reference, the date the demand was recorded, and the full schedule of
-            payments &mdash; 20% down payment, 1% monthly installment, 10% ballot, four 5% balloon payments and
-            20% on possession.
+            All active listings currently on our desk &mdash; every card shows the plot reference, the date the
+            demand was recorded, and the full schedule of payments &mdash; 20% down payment, 1% monthly
+            installment, 10% ballot, four 5% balloon payments and 20% on possession. Tap the WhatsApp button on
+            any plot to reach us directly with a pre-filled enquiry.
           </p>
         </div>
 

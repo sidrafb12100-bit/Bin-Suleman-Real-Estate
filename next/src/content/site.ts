@@ -4,9 +4,9 @@ export const site = {
   phoneDisplay: '+92 42 111 277 999',
   phoneDisplayShort: '(042) 111-277-999',
   phoneHref: 'tel:+9242111277999',
-  /** Placeholder until the owner provides the real number. */
-  whatsappNumber: '923000000000',
-  whatsappDisplay: '+92 300 0000000',
+  /** Real WhatsApp (mobile) number of the owner, E.164 without '+'. */
+  whatsappNumber: '923244459815',
+  whatsappDisplay: '+92 324 4459815',
   get whatsappHref() {
     return 'https://wa.me/' + this.whatsappNumber;
   },
