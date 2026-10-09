@@ -108,15 +108,4 @@ export const phase5Listings: Phase5Listing[] = [
   { ref: '180+181', block: 'M Block', title: 'Plots 180 + 181', subtitle: 'Contiguous pair plots' },
 ];
 
-/** Format a PKR amount with western grouping: 40000000 -> '40,000,000'. */
-export const formatPKR = (amount: number): string =>
-  amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-/** Schedule-of-payment splits derived from a demand (mirrors the card design). */
-export const scheduleOf = (demand: number) => ({
-  downPayment: Math.round(demand * 0.2),
-  monthlyInstallment: Math.round(demand * 0.01),
-  ballot: Math.round(demand * 0.1),
-  balloon: Math.round(demand * 0.05),
-  possession: Math.round(demand * 0.2),
-});
+export { formatPKR, scheduleOf } from '@/lib/format';
