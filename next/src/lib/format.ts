@@ -24,3 +24,19 @@ export const formatDbDate = (iso: string | null): string => {
   if (!y || !m || !d) return '';
   return `${String(d).padStart(2, '0')} ${MONTHS[m - 1]} ${y}`;
 };
+
+/**
+ * Inverse of formatDbDate: '05 Oct 2026' → '2026-10-05' (for newest/oldest
+ * sorting of entries that only carry a display date). Returns '' when the
+ * string can't be parsed.
+ */
+export const parseDisplayDate = (display: string): string => {
+  const parts = display.trim().split(/\s+/);
+  if (parts.length !== 3) return '';
+  const [dRaw, monRaw, yRaw] = parts;
+  const m = MONTHS.findIndex((name) => name.toLowerCase() === monRaw.slice(0, 3).toLowerCase()) + 1;
+  const y = Number(yRaw);
+  const d = Number(dRaw);
+  if (!m || !y || !d) return '';
+  return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+};

@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import {
   listings as staticListings,
   phase5Listings as staticPhase5,
@@ -8,6 +10,7 @@ import {
 } from '@/content/listings';
 import { site } from '@/content/site';
 import { useListings } from '@/hooks/useListings';
+import { parseDisplayDate } from '@/lib/format';
 import type { PublicListing } from '@/lib/listings';
 
 /** Photo header at the top of a card (renders nothing when there are no photos). */
@@ -197,6 +200,7 @@ const fallbackPrism: PublicListing[] = staticListings.map((l, i) => ({
   subtitle: l.subtitle,
   demand: l.demand,
   date: l.date,
+  created_at: parseDisplayDate(l.date),
   final: l.final ?? false,
   featured: l.featured ?? false,
   photos: [],
@@ -211,6 +215,7 @@ const fallbackPhase5: PublicListing[] = staticPhase5.map((l, i) => ({
   subtitle: l.subtitle,
   demand: null,
   date: '',
+  created_at: '',
   final: false,
   featured: false,
   photos: [],
@@ -224,14 +229,89 @@ const fallbackPhase5: PublicListing[] = staticPhase5.map((l, i) => ({
  */
 export default function ListingsSection() {
   const { listings: liveListings } = useListings();
+  const [query, setQuery] = useState('');
+  const [sort, setSort] = useState<'newest' | 'oldest'>('newest');
 
-  const prism = (liveListings ?? fallbackPrism).filter((l) => l.collection === 'prism9');
-  const phase5 = (liveListings ?? fallbackPhase5).filter((l) => l.collection === 'phase5');
+  /** Case-insensitive match across every field a visitor would search. */
+  const matches = (l: PublicListing): boolean => {
+    const q = query.trim().toLowerCase();
+    if (!q) return true;
+    return [
+      l.ref,
+      l.title,
+      l.block,
+      l.subtitle,
+      l.date,
+      l.demand != null ? String(l.demand) : '',
+      l.demand != null ? formatPKR(l.demand) : '',
+    ]
+      .join(' ')
+      .toLowerCase()
+      .includes(q);
+  };
+
+  const bySort = (a: PublicListing, b: PublicListing) =>
+    sort === 'newest' ? b.created_at.localeCompare(a.created_at) : a.created_at.localeCompare(b.created_at);
+
+  const base = liveListings ?? [...fallbackPrism, ...fallbackPhase5];
+  const prism = base.filter((l) => l.collection === 'prism9' && matches(l)).sort(bySort);
+  const phase5 = base.filter((l) => l.collection === 'phase5' && matches(l)).sort(bySort);
+  const totalMatches = prism.length + phase5.length;
+  const searching = query.trim() !== '';
 
   const priced = (l: PublicListing): l is PublicListing & { demand: number } => l.demand !== null;
 
   return (
     <>
+      {/* Browse toolbar — search bar, then Newest/Oldest filter, then the plots */}
+      <div className="w-full bg-[#0b1329] border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-gutter-mobile sm:px-gutter py-6 flex flex-col gap-4">
+          <div className="relative">
+            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true">
+              search
+            </span>
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search: 10 marla phase 6 corner"
+              aria-label="Search listings"
+              className="w-full rounded-2xl bg-white border border-slate-200 pl-12 pr-4 py-4 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#d4af37] focus:outline-none focus:ring-4 focus:ring-[#d4af37]/15"
+            />
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-white/25 text-slate-300 text-xs font-bold uppercase tracking-wide">
+              <span className="material-symbols-outlined text-base" aria-hidden="true">filter_alt</span>
+              Filters
+            </span>
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value as 'newest' | 'oldest')}
+              aria-label="Sort listings"
+              className="px-4 py-2.5 rounded-xl border border-white/25 bg-[#0f1937] text-slate-200 text-xs font-bold uppercase tracking-wide focus:border-[#fed65b] focus:outline-none"
+            >
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+            <span className="text-sm text-slate-400">
+              {totalMatches} listing{totalMatches === 1 ? '' : 's'}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {totalMatches === 0 && (
+        <div className="w-full bg-[#0b1329] pb-space-xl">
+          <div className="max-w-7xl mx-auto px-gutter-mobile sm:px-gutter">
+            <div className="rounded-2xl bg-white/5 border border-white/10 px-5 py-10 text-center text-slate-400 text-sm">
+              {searching ? `No plots match “${query.trim()}”. Try a ref like A-356, a block, or a phase.` : 'No plots available right now — WhatsApp us for current requirements.'}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* DHA Prism 9 — active inventory */}
+      {prism.length > 0 && (
       <section id="listing-grid" aria-label="DHA Prism 9 Plots" className="relative w-full overflow-hidden bg-[#0b1329] py-space-xl lg:py-24">
       {/* Ambient glows */}
       <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-secondary-container/10 blur-3xl pointer-events-none" />
@@ -264,8 +344,10 @@ export default function ListingsSection() {
         </div>
       </div>
       </section>
+      )}
 
       {/* DHA Phase 5 — requirements (below the Prism section) */}
+      {phase5.length > 0 && (
       <section
         id="phase5-grid"
         aria-label="DHA Phase 5"
@@ -296,6 +378,7 @@ export default function ListingsSection() {
           </div>
         </div>
       </section>
+      )}
     </>
   );
 }

@@ -30,6 +30,7 @@ edits in the admin dashboard appear on `/listings` instantly (realtime), with
 | Piece | Where |
 |---|---|
 | Database schema + RLS + seed | `next/supabase/migrations/0001_init.sql` (run once in the Supabase SQL editor) |
+| Table grants + admin bootstrap | `next/supabase/migrations/0002_grants.sql` (run after 0001 — fixes `permission denied for table listings` on `/admin`) |
 | Public env vars | `next/.env.local` (copy `next/.env.example`) |
 | Public page data fetch | `next/src/hooks/useListings.ts` (anon key, RLS: `published = true`) |
 | Admin dashboard | `/admin` (login: `/admin/login`, editor: `/admin/editor`) |
@@ -40,11 +41,15 @@ write is authorised by Supabase Auth + row-level `is_admin()` policies. No
 service-role key exists anywhere in the app.
 
 ### Admin setup
-1. Create a Supabase project → run `next/supabase/migrations/0001_init.sql` in the SQL editor.
+1. Create a Supabase project → run every file in `next/supabase/migrations/`
+   in order (`0001_init.sql`, then `0002_grants.sql`) in the SQL editor.
+   Re-run `0002_grants.sql` any time you see `permission denied for table …`.
 2. Copy `next/.env.example` → `next/.env.local` and fill in the URL + anon key.
-3. Create a user under **Authentication → Users**, then grant it admin access:
+3. Create a user under **Authentication → Users**. If `admin_users` was empty
+   when you ran `0002_grants.sql`, the user is already an admin; otherwise grant it:
    ```sql
-   insert into public.admin_users (user_id) values ('<user-uuid>')
+   insert into public.admin_users (user_id)
+   select id from auth.users where email = 'you@example.com'
    on conflict (user_id) do nothing;
    ```
 4. Sign in at `/admin` (locally: `npm.cmd run dev` in `next/`).

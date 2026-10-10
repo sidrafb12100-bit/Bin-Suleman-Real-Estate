@@ -47,6 +47,8 @@ export type PublicListing = {
   demand: number | null;
   /** Formatted display date, e.g. '05 Oct 2026' (may be ''). */
   date: string;
+  /** ISO created-at timestamp ('YYYY-MM-DD' for static fallback) — sorts newest/oldest. */
+  created_at: string;
   final: boolean;
   featured: boolean;
   photos: string[];
@@ -62,6 +64,7 @@ export const rowToListing = (row: ListingRow, photos: string[] = []): PublicList
   subtitle: row.subtitle ?? '',
   demand: row.demand,
   date: formatDbDate(row.demand_date),
+  created_at: row.created_at,
   final: row.is_final,
   featured: row.featured,
   photos,
